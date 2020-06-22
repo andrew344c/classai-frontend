@@ -1,4 +1,4 @@
-import { TOGGLE_DRAWER, GET_UI_STATE } from "../types"
+import { TOGGLE_DRAWER } from "../types"
 
 
 export const toggleDrawer = () => (dispatch) => {

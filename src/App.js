@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 // React Router
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 // Views
 import Home from "./pages/Home";
@@ -25,11 +25,12 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <Router>
-          <Navigation />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+
+            <Redirect from="*" to="/" />
           </Switch>
         </Router>
       </Provider>
