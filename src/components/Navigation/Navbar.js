@@ -15,7 +15,7 @@ import { withStyles } from "@material-ui/core/styles"
 
 // Redux
 import { connect } from "react-redux"
-import { toggleDrawer } from "../redux/actions/uiActions"
+import { toggleDrawer } from "../../redux/actions/uiActions"
 
 const styles = (theme) => ({
     appBar: {

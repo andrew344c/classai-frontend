@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navigation from "./components/Navigation"
 
 // Redux
 import { Provider } from "react-redux";
@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <Router>
-          <Navbar />
+          <Navigation />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />

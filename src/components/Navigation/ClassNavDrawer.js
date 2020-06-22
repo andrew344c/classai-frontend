@@ -4,7 +4,7 @@ import { Drawer } from '@material-ui/core';
 
 // Redux
 import { connect } from "react-redux";
-import { toggleDrawer } from "../redux/actions/uiActions";
+import { toggleDrawer } from "../../redux/actions/uiActions";
 
 
 const mapStateToProps = (state) => ({
