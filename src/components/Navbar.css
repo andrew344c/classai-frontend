@@ -1,0 +1,5 @@
+.productName {
+    padding-left: 1em;
+    color: black;
+    flex-grow: 1;
+}
