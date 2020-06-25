@@ -20,6 +20,12 @@ import store from "./redux/store"
 import logo from "./logo.svg";
 import "./App.css";
 
+// Axios
+import axios from "axios";
+
+axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
+
+
 class App extends Component {
   render() {
     return (

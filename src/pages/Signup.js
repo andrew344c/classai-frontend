@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+
+// Material UI
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +14,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+// Redux
+import { connect } from "react-redux";
+import { signup } from "../redux/actions/userActions"
+
 
 function Copyright() {
     return (
@@ -47,6 +54,31 @@ const styles = (theme) => ({
 });
 
 class Signup extends Component {
+    constructor() {
+        super();
+        this.state = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+        };
+    }
+
+    onChange = (event) => {
+        event.persist();
+        event.preventDefault();
+        this.setState((oldState) => ({
+            ...oldState,
+            [event.target.id]: event.target.value
+        }));
+    }
+
+    onSubmit = (event) => {
+        event.persist();
+        event.preventDefault();
+        this.props.signup(this.state, this.props.history);
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -61,7 +93,7 @@ class Signup extends Component {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form} onSubmit={this.onSubmit} noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -72,6 +104,7 @@ class Signup extends Component {
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
+                                    onChange={this.onChange}
                                     autoFocus
                                 />
                             </Grid>
@@ -82,6 +115,7 @@ class Signup extends Component {
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
+                                    onChange={this.onChange}
                                     name="lastName"
                                     autoComplete="lname"
                                 />
@@ -93,6 +127,7 @@ class Signup extends Component {
                                     fullWidth
                                     id="email"
                                     label="Email Address"
+                                    onChange={this.onChange}
                                     name="email"
                                     autoComplete="email"
                                 />
@@ -104,22 +139,13 @@ class Signup extends Component {
                                     fullWidth
                                     name="password"
                                     label="Password"
+                                    onChange={this.onChange}
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            value="allowExtraEmails"
-                                            color="primary"
-                                        />
-                                    }
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
-                                />
-                            </Grid>
+                            
                         </Grid>
                         <Button
                             type="submit"
@@ -147,4 +173,12 @@ class Signup extends Component {
     }
 }
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = (state) => ({
+    errors: state.ui.errors
+})
+
+const mapActionsToProps = {
+    signup
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Signup));

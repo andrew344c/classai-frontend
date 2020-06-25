@@ -1,20 +1,29 @@
-import { TOGGLE_DRAWER } from "../types"
+import { TOGGLE_DRAWER, SET_ERRORS, CLEAR_ERRORS } from "../types"
 
 
 const defaultState = {
-    drawerOpen: false
+    drawerOpen: false,
+    errors: null
 }
 
-export default function(state = defaultState, action) {
+export default (state = defaultState, action) => {
     switch (action.type) {
         case TOGGLE_DRAWER:
-            console.log("toggling");
             return {
                 ...state,
                 drawerOpen: !state.drawerOpen
             };
+        case SET_ERRORS:
+            return {
+                ...state,
+                errors: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                errors: null
+            }
         default:
-            console.log("getting state");
             return state;
     }
 }

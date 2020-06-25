@@ -18,6 +18,7 @@ import { connect } from "react-redux"
 import { toggleDrawer } from "../../redux/actions/uiActions"
 
 const styles = (theme) => ({
+    ...theme,
     appBar: {
         backgroundColor: "white",
     },

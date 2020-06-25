@@ -7,10 +7,6 @@ import { connect } from "react-redux";
 import { toggleDrawer } from "../../redux/actions/uiActions";
 
 
-const mapStateToProps = (state) => ({
-    open: state.ui.drawerOpen
-});
-
 class ClassNavDrawer extends Component {
 
     componentDidMount() {
@@ -31,4 +27,12 @@ class ClassNavDrawer extends Component {
     }
 }
 
-export default connect(mapStateToProps, { toggleDrawer })(ClassNavDrawer);
+const mapStateToProps = (state) => ({
+    open: state.ui.drawerOpen
+});
+
+const mapActionsToProps = {
+    toggleDrawer
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ClassNavDrawer);
