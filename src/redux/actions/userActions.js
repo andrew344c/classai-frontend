@@ -3,7 +3,6 @@ import axios from "axios"
 
 
 export const login = (userData, history) => (dispatch) => {
-    console.log("login action!");
     axios.post("/users/login", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
@@ -19,8 +18,7 @@ export const login = (userData, history) => (dispatch) => {
 };
 
 export const signup = (userData, history) => (dispatch) => {
-    console.log(userData);
-    axios.post("users/signup", userData)
+    axios.post("/users/signup", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
             console.log(res.data.JWToken);
@@ -34,6 +32,20 @@ export const signup = (userData, history) => (dispatch) => {
             });
         });
 };
+
+export const logout = () => (dispatch) => {
+    axios.post("/users/logout")
+        .then((res) => {
+            axios.defaults.headers.common["Authorization"] = "";
+            localStorage.removeItem("JWToken");
+        })
+        .catch((err) => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            })
+        })
+}
 
 const setAuthorizationHeader = (jwtoken) => {
     const JWToken = `Bearer ${jwtoken}`;
