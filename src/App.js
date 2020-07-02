@@ -36,11 +36,8 @@ axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
 
 let token = localStorage.getItem("JWToken");
 if (token) {
-    console.log("there is token");
     axios.defaults.headers.common["Authorization"] = token;
-    store.dispatch({ type: SET_AUTHENTICATED, payload: true });
-} else {
-    window.location.href = "/login";
+    store.dispatch({ type: SET_AUTHENTICATED, payload: { authVal: true } });
 }
 
 class App extends Component {

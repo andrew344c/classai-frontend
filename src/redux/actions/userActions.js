@@ -9,7 +9,7 @@ export const login = (userData, history) => (dispatch) => {
             setAuthorizationHeader(res.data.JWToken);
             dispatch({
                 type: SET_AUTHENTICATED,
-                payload: true,
+                payload: { authVal: true },
             });
             history.push("/");
         })
@@ -28,7 +28,7 @@ export const signup = (userData, history) => (dispatch) => {
             setAuthorizationHeader(res.data.JWToken);
             dispatch({
                 type: SET_AUTHENTICATED,
-                payload: true,
+                payload: { authVal: true },
             });
             history.push("/");
         })
@@ -49,7 +49,7 @@ export const logout = (history) => (dispatch) => {
             localStorage.removeItem("JWToken");
             dispatch({
                 type: SET_AUTHENTICATED,
-                payload: false,
+                payload: { authVal: false },
             });
         })
         .catch((err) => {
@@ -79,7 +79,16 @@ export const joinClassroom = (classroomId) => (dispatch) => {
         });
 };
 
-export const setAuthorizationHeader = (jwtoken) => {
+export const createClassroom = (classroomInfo) => (dispatch) => {
+    axios.post("/classrooms/create", classroomInfo).then((res) => {
+        dispatch({
+            type: JOINED_CLASSROOM,
+            newClassroom: res.data,
+        });
+    });
+};
+
+const setAuthorizationHeader = (jwtoken) => {
     const JWToken = `Bearer ${jwtoken}`;
     localStorage.setItem("JWToken", JWToken);
     axios.defaults.headers.common["Authorization"] = JWToken;

@@ -9,7 +9,7 @@ export const getClassrooms = () => (dispatch) => {
             console.log("action2");
             dispatch({
                 type: GET_CLASSROOMS,
-                payload: res.data.classrooms,
+                payload: res.data,
             });
         })
         .catch((err) => {

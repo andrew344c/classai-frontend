@@ -52,7 +52,7 @@ class Navbar extends Component {
                             ClassAI
                         </Typography>
                     </Link>
-                    {this.props.authenticated ? (
+                    {!this.props.authenticated ? (
                         <Fragment>
                             <Link
                                 to="/login"

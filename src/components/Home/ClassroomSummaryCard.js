@@ -13,6 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = (theme) => ({
     card: {
         marginBottom: 20,
+        backgroundColor: "#ebf1fa",
     },
 });
 
