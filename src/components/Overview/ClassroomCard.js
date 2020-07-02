@@ -17,7 +17,7 @@ const styles = (theme) => ({
     }
 });
 
-class ClassroomDisplay extends Component {
+class ClassroomCard extends Component {
 
     handle = () => {
         this.refs.fileUploader.click();
@@ -49,4 +49,4 @@ class ClassroomDisplay extends Component {
     }
 }
 
-export default withStyles(styles)(ClassroomDisplay);
+export default withStyles(styles)(ClassroomCard);

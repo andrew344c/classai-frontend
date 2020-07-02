@@ -1,5 +1,6 @@
-import { SET_ERRORS, SET_AUTHENTICATED } from "../types";
+import { SET_ERRORS, SET_AUTHENTICATED, JOINED_CLASSROOM } from "../types";
 import axios from "axios";
+import { BottomNavigationAction } from "@material-ui/core";
 
 export const login = (userData, history) => (dispatch) => {
     axios
@@ -52,6 +53,25 @@ export const logout = (history) => (dispatch) => {
             });
         })
         .catch((err) => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data,
+            });
+        });
+};
+
+export const joinClassroom = (classroomId) => (dispatch) => {
+    console.log(classroomId);
+    axios
+        .post("/classrooms/join/" + classroomId.trim())
+        .then((res) => {
+            dispatch({
+                type: JOINED_CLASSROOM,
+                newClassroom: res.data,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
             dispatch({
                 type: SET_ERRORS,
                 payload: err.response.data,
