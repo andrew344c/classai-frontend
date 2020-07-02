@@ -20,16 +20,17 @@ import { logout } from "../../redux/actions/userActions";
 
 const styles = (theme) => ({
     appBar: {
-        backgroundColor: "white",
+        //backgroundColor: "#eeeeee",
+        marginBottom: "4em",
     },
     title: {
         paddingLeft: "1em",
-        color: "black",
+        color: "white",
     },
-
     leftmostRightGroupButton: {
         marginLeft: "auto",
         textDecoration: "none",
+        color: "white"
     },
     link: {
         textDecoration: "none",
@@ -43,11 +44,11 @@ class Navbar extends Component {
         return (
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton onClick={this.props.toggleDrawer}>
+                    <IconButton onClick={this.props.toggleDrawer} style={{color: "white"}}>
                         <MenuIcon />
                     </IconButton>
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <Typography className={classes.title} variant="h5">
+                        <Typography className={classes.title} variant="h6">
                             ClassAI
                         </Typography>
                     </Link>
