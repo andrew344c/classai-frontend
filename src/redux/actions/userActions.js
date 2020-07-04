@@ -1,6 +1,5 @@
 import { SET_ERRORS, SET_AUTHENTICATED, JOINED_CLASSROOM } from "../types";
 import axios from "axios";
-import { BottomNavigationAction } from "@material-ui/core";
 
 export const login = (userData, history) => (dispatch) => {
     axios

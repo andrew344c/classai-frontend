@@ -1,7 +1,8 @@
-import { GET_CLASSROOMS, JOINED_CLASSROOM } from "../types";
+import { GET_CLASSROOMS, JOINED_CLASSROOM, GET_CLASSROOM } from "../types";
 
 const defaultState = {
     classrooms: [],
+    classroomData: {},
 };
 
 export default (state = defaultState, action) => {
@@ -9,13 +10,17 @@ export default (state = defaultState, action) => {
         case GET_CLASSROOMS:
             return {
                 ...state,
-                classrooms: action.payload.classrooms,
+                classrooms: action.payload,
             };
         case JOINED_CLASSROOM:
-            console.log([...state.classrooms, action.newClassroom]);
             return {
                 ...state,
                 classrooms: [...state.classrooms, action.newClassroom],
+            };
+        case GET_CLASSROOM:
+            return {
+                ...state,
+                classroom: action.payload,
             };
         default:
             return state;

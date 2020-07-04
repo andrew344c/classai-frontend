@@ -16,9 +16,7 @@ import jwtDecode from "jwt-decode";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
-// Components
-import Navigation from "./components/Navigation";
+import Classroom from "./pages/Classroom"
 
 // Redux
 import { Provider } from "react-redux";
@@ -49,6 +47,7 @@ class App extends Component {
                         <Route exact path="/" component={Home} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
+                        <Route exact path="/classroom/:classroomId" component={Classroom} />
 
                         <Redirect from="*" to="/" />
                     </Switch>

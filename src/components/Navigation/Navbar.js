@@ -20,7 +20,7 @@ import { logout } from "../../redux/actions/userActions";
 
 const styles = (theme) => ({
     appBar: {
-        //backgroundColor: "#eeeeee",
+        backgroundColor: "#001f3f",
         marginBottom: "4em",
     },
     title: {

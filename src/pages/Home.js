@@ -15,14 +15,8 @@ import { getClassrooms } from "../redux/actions/dataActions";
 import Navigation from "../components/Navigation";
 import ClassroomSummaryCard from "../components/Home/ClassroomSummaryCard";
 import AddClassroomDialog from "../components/Home/AddClassroomDialog";
-import ClassroomShowcase from "../components/Overview/ClassroomShowcase";
-import ClassroomDescription from "../components/Overview/ClassroomDescription";
 
 const styles = (theme) => ({
-    grid: {
-        width: "85%",
-        margin: "0 auto",
-    },
     classroomsContainer: {
         width: "80%",
         margin: "0 auto",
@@ -41,7 +35,13 @@ class Home extends Component {
                 <Navigation />
                 <div className={classes.classroomsContainer}>
                     {this.props.classrooms.map((classroom) => {
-                        return <ClassroomSummaryCard classroom={classroom} />;
+                        return (
+                            <ClassroomSummaryCard
+                                key={classroom.classroomId}
+                                history={this.props.history}
+                                classroom={classroom}
+                            />
+                        );
                     })}
                     <AddClassroomDialog />
                 </div>

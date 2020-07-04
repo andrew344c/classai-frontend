@@ -5,6 +5,7 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 // Data Reducer Types
 export const GET_CLASSROOMS = "GET_CLASSROOMS";
+export const GET_CLASSROOM = "GET_CLASSROOM";
 export const JOINED_CLASSROOM = "JOINED_CLASSROOM";
 
 // User Reducer Types

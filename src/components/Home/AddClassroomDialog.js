@@ -92,9 +92,7 @@ class AddClassroomDialog extends Component {
                     onClick={this.onClick}
                 >
                     <AddIcon />
-                    <Typography variant="body3">
-                        Join or create a classroom
-                    </Typography>
+                    <Typography>Join or create a classroom</Typography>
                 </Button>
                 <Dialog
                     open={this.state.open}
