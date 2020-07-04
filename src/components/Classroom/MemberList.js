@@ -23,7 +23,6 @@ const styles = (theme) => ({
 class MemberList extends Component {
     render() {
         const { classes, teachers, students } = this.props;
-        console.log(teachers);
         return (
             <Paper className={classes.paper}>
                 <Typography variant="h6">Teachers</Typography>

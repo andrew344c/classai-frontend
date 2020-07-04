@@ -14,7 +14,6 @@ class ClassNavDrawer extends Component {
     }
 
     render() {
-        console.log("rendering with visibility " + this.props.open);
         return (
             <Drawer anchor="left" open={this.props.open} onClose={this.props.toggleDrawer}>
                 <p>asdasdasd</p>

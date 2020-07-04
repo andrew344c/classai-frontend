@@ -32,7 +32,6 @@ export const signup = (userData, history) => (dispatch) => {
             history.push("/");
         })
         .catch((err) => {
-            console.log(err.response.data);
             dispatch({
                 type: SET_ERRORS,
                 payload: err.response.data,
@@ -60,7 +59,6 @@ export const logout = (history) => (dispatch) => {
 };
 
 export const joinClassroom = (classroomId) => (dispatch) => {
-    console.log(classroomId);
     axios
         .post("/classrooms/join/" + classroomId.trim())
         .then((res) => {
@@ -70,7 +68,7 @@ export const joinClassroom = (classroomId) => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             dispatch({
                 type: SET_ERRORS,
                 payload: err.response.data,

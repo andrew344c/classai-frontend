@@ -16,12 +16,9 @@ export const getClassrooms = () => (dispatch) => {
 };
 
 export const getClassroom = (classroomId, history) => (dispatch) => {
-    console.log("getting classroom")
-    console.log("id: " + classroomId)
     axios
         .get(`/classrooms/${classroomId}`)
         .then((res) => {
-            console.log(res.data);
             dispatch({
                 type: GET_CLASSROOM,
                 payload: res.data,

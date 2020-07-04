@@ -57,6 +57,7 @@ class Signup extends Component {
         this.state = {
             firstName: "",
             lastName: "",
+            username: "",
             email: "",
             password: "",
         };
@@ -116,6 +117,18 @@ class Signup extends Component {
                                     onChange={this.onChange}
                                     name="lastName"
                                     autoComplete="lname"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Username"
+                                    onChange={this.onChange}
+                                    name="username"
+                                    autoComplete="username"
                                 />
                             </Grid>
                             <Grid item xs={12}>

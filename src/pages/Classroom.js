@@ -60,7 +60,7 @@ class Classroom extends Component {
                 ) : (
                     <div>
                         <CircularProgress
-                            style={{ marginLeft: "auto", marginRight: "auto" }}
+                            style={{ display: "block", margin: "0 auto" }}
                         />
                     </div>
                 )}
