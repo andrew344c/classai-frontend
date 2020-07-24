@@ -11,6 +11,7 @@ import tempImg from "../../assets/default-classroom.png";
 const styles = (theme) => ({
     paper: {
         padding: 20,
+        marginBottom: "3em",
         backgroundImage: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)",
     },
     profile: {

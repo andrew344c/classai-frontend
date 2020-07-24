@@ -30,30 +30,36 @@ class Home extends Component {
 
     render() {
         const { classes } = this.props;
-        return this.props.authenticated ? (
-            <Fragment>
-                <Navigation />
-                <div className={classes.classroomsContainer}>
-                    {this.props.classrooms.map((classroom) => {
-                        return (
-                            <ClassroomSummaryCard
-                                key={classroom.classroomId}
-                                history={this.props.history}
-                                classroom={classroom}
-                            />
-                        );
-                    })}
-                    <AddClassroomDialog />
-                </div>
-            </Fragment>
-        ) : (
-            <Redirect to="/login" />
-        );
+
+        if (this.props.redirect) {
+            return <Redirect to={this.props.redirect} />;
+        } else {
+            return this.props.authenticated ? (
+                <Fragment>
+                    <Navigation />
+                    <div className={classes.classroomsContainer}>
+                        {this.props.classrooms.map((classroom) => {
+                            return (
+                                <ClassroomSummaryCard
+                                    key={classroom.classroomId}
+                                    history={this.props.history}
+                                    classroom={classroom}
+                                />
+                            );
+                        })}
+                        <AddClassroomDialog />
+                    </div>
+                </Fragment>
+            ) : (
+                <Redirect to="/login" />
+            );
+        }
     }
 }
 
 const mapStateToProps = (state) => ({
     classrooms: state.data.classrooms,
+    redirect: state.data.redirect,
     authenticated: state.user.authenticated,
 });
 

@@ -1,4 +1,10 @@
-import { SET_ERRORS, SET_AUTHENTICATED, JOINED_CLASSROOM } from "../types";
+import {
+    SET_ERRORS,
+    SET_AUTHENTICATED,
+    JOINED_CLASSROOM,
+    CREATED_ASSIGNMENT,
+    CLEAR_ERRORS,
+} from "../types";
 import axios from "axios";
 
 export const login = (userData, history) => (dispatch) => {
@@ -28,6 +34,9 @@ export const signup = (userData, history) => (dispatch) => {
             dispatch({
                 type: SET_AUTHENTICATED,
                 payload: { authVal: true },
+            });
+            dispatch({
+                type: CLEAR_ERRORS,
             });
             history.push("/");
         })
@@ -83,6 +92,17 @@ export const createClassroom = (classroomInfo) => (dispatch) => {
             newClassroom: res.data,
         });
     });
+};
+
+export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
+    axios
+        .post(`/classrooms/${classroomId}/assignments`, assignmentInfo)
+        .then((res) => {
+            dispatch({
+                type: CREATED_ASSIGNMENT,
+                newAssignment: res.data,
+            });
+        });
 };
 
 const setAuthorizationHeader = (jwtoken) => {

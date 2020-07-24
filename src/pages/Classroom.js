@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 // React Router
-import { withRouter } from "react-router";
+import { withRouter, Redirect } from "react-router";
 
 // Material UI
 import { Grid, CircularProgress } from "@material-ui/core";
@@ -15,6 +15,8 @@ import { getClassroom } from "../redux/actions/dataActions";
 import Navigation from "../components/Navigation";
 import ClassroomProfile from "../components/Classroom/ClassroomProfile";
 import MemberList from "../components/Classroom/MemberList";
+import AssignmentCard from "../components/Classroom/AssignmentCard";
+import CreateAssignmentDialog from "../components/Classroom/CreateAssignmentDialog";
 
 const styles = (theme) => ({
     grid: {
@@ -31,30 +33,42 @@ class Classroom extends Component {
         );
     }
 
+    // TODO: should separate assignments list to separate component
     render() {
         const { classes, classroom } = this.props;
 
+        if (this.props.redirect) {
+            return <Redirect to={this.props.redirect} />;
+        }
         // temp, store loading state in redux later
         return (
             <Fragment>
                 <Navigation /> {/*fix unneccesary rerendering later*/}
-                {classroom !== undefined ? (
+                {Object.keys(classroom).length !== 0 ? (
                     <Grid container spacing={6} className={classes.grid}>
-                        <Grid item sm={4} xs={12}>
-                            <ClassroomProfile
-                                name={classroom.name}
-                                description={classroom.description}
-                                createdAt={classroom.createdAt}
-                            />
+                        <Grid item sm={4} xs={12} className={classes.grid}>
+                            <Grid item xs={12}>
+                                <ClassroomProfile
+                                    name={classroom.name}
+                                    description={classroom.description}
+                                    createdAt={classroom.createdAt}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <MemberList
+                                    teachers={classroom.teachers}
+                                    students={classroom.students}
+                                />
+                            </Grid>
                         </Grid>
                         <Grid item sm={8} xs={12}>
-                            {}
-                        </Grid>
-                        <Grid item sm={4} xs={12}>
-                            <MemberList
-                                teachers={classroom.teachers}
-                                students={classroom.students}
-                            />
+                            {classroom.assignments.map((assignment) => (
+                                <AssignmentCard
+                                    key={assignment.id}
+                                    assignment={assignment}
+                                />
+                            ))}
+                            <CreateAssignmentDialog />
                         </Grid>
                     </Grid>
                 ) : (
@@ -71,6 +85,7 @@ class Classroom extends Component {
 
 const mapStateToProps = (state) => ({
     classroom: state.data.classroom,
+    redirect: state.data.redirect,
 });
 const mapActionsToProps = {
     getClassroom,

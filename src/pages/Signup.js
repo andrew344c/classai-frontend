@@ -15,8 +15,7 @@ import Container from "@material-ui/core/Container";
 
 // Redux
 import { connect } from "react-redux";
-import { signup } from "../redux/actions/userActions"
-
+import { signup } from "../redux/actions/userActions";
 
 function Copyright() {
     return (
@@ -43,11 +42,16 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
+        textAlign: "center",
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(3),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 0, 1),
+    },
+    error: {
+        color: "red",
+        marginBottom: "0.3em",
     },
 });
 
@@ -68,19 +72,18 @@ class Signup extends Component {
         event.preventDefault();
         this.setState((oldState) => ({
             ...oldState,
-            [event.target.id]: event.target.value
+            [event.target.id]: event.target.value,
         }));
-    }
+    };
 
     onSubmit = (event) => {
         event.persist();
         event.preventDefault();
         this.props.signup(this.state, this.props.history);
-    }
+    };
 
     render() {
-
-        const { classes } = this.props;
+        const { classes, errors } = this.props;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -92,7 +95,11 @@ class Signup extends Component {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <form className={classes.form} onSubmit={this.onSubmit} noValidate>
+                    <form
+                        className={classes.form}
+                        onSubmit={this.onSubmit}
+                        noValidate
+                    >
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -156,7 +163,6 @@ class Signup extends Component {
                                     autoComplete="current-password"
                                 />
                             </Grid>
-                            
                         </Grid>
                         <Button
                             type="submit"
@@ -167,6 +173,14 @@ class Signup extends Component {
                         >
                             Sign Up
                         </Button>
+                        {errors !== null ? (
+                            <Typography
+                                className={classes.error}
+                                variant="body2"
+                            >
+                                {errors}
+                            </Typography>
+                        ) : null}
                         <Grid container justify="flex-end">
                             <Grid item>
                                 <Link href="/login" variant="body2">
@@ -185,11 +199,14 @@ class Signup extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    errors: state.ui.errors
-})
+    errors: state.ui.errors,
+});
 
 const mapActionsToProps = {
-    signup
-}
+    signup,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Signup));
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withStyles(styles)(Signup));

@@ -1,4 +1,9 @@
-import { GET_CLASSROOMS, GET_CLASSROOM } from "../types";
+import {
+    GET_CLASSROOMS,
+    GET_CLASSROOM,
+    REDIRECT,
+    CLEAR_REDIRECT,
+} from "../types";
 import axios from "axios";
 
 export const getClassrooms = () => (dispatch) => {
@@ -11,11 +16,16 @@ export const getClassrooms = () => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.error(err);
+            //pushHistory("/login");
+            dispatch({
+                type: REDIRECT,
+                newLocation: "/login",
+            });
         });
 };
 
 export const getClassroom = (classroomId, history) => (dispatch) => {
+    console.log("get classroom");
     axios
         .get(`/classrooms/${classroomId}`)
         .then((res) => {
@@ -25,6 +35,16 @@ export const getClassroom = (classroomId, history) => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.error(err);
+            //pushHistory("/login");
+            dispatch({
+                type: REDIRECT,
+                newLocation: "/login",
+            });
         });
+};
+
+export const clearRedirect = () => (dispatch) => {
+    dispatch({
+        type: CLEAR_REDIRECT,
+    });
 };

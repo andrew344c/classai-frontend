@@ -1,8 +1,16 @@
-import { GET_CLASSROOMS, JOINED_CLASSROOM, GET_CLASSROOM } from "../types";
+import {
+    GET_CLASSROOMS,
+    JOINED_CLASSROOM,
+    GET_CLASSROOM,
+    CREATED_ASSIGNMENT,
+    REDIRECT,
+    CLEAR_REDIRECT,
+} from "../types";
 
 const defaultState = {
     classrooms: [],
-    classroomData: {},
+    classroom: {},
+    redirect: false,
 };
 
 export default (state = defaultState, action) => {
@@ -21,6 +29,27 @@ export default (state = defaultState, action) => {
             return {
                 ...state,
                 classroom: action.payload,
+            };
+        case CREATED_ASSIGNMENT:
+            return {
+                ...state,
+                classroom: {
+                    ...state.classroom,
+                    assignments: [
+                        action.newAssignment,
+                        ...state.classroom.assignments,
+                    ],
+                },
+            };
+        case REDIRECT:
+            return {
+                ...state,
+                redirect: action.newLocation,
+            };
+        case CLEAR_REDIRECT:
+            return {
+                ...state,
+                redirect: false,
             };
         default:
             return state;

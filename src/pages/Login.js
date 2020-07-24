@@ -42,11 +42,16 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
+        textAlign: "center",
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
+    error: {
+        color: "red",
+        marginBottom: "0.2em",
+    },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 0, 1),
     },
 });
 
@@ -56,7 +61,7 @@ class Login extends Component {
         this.state = {
             email: "",
             password: "",
-        }
+        };
     }
 
     onChange = (event) => {
@@ -64,18 +69,18 @@ class Login extends Component {
         event.preventDefault();
         this.setState((oldState) => ({
             ...oldState,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         }));
-    }
+    };
 
     onSubmit = (event) => {
         event.persist();
         event.preventDefault();
         this.props.login(this.state, this.props.history);
-    }
+    };
 
     render() {
-        const { classes } = this.props;
+        const { classes, errors } = this.props;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -122,6 +127,14 @@ class Login extends Component {
                         >
                             Sign In
                         </Button>
+                        {errors !== null ? (
+                            <Typography
+                                className={classes.error}
+                                variant="body2"
+                            >
+                                {errors}
+                            </Typography>
+                        ) : null}
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
@@ -149,7 +162,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-    login
-}
+    login,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Login));
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withStyles(styles)(Login));
