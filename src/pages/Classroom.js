@@ -71,6 +71,7 @@ class Classroom extends Component {
                             <CreateAssignmentDialog />
                         </Grid>
                     </Grid>
+                    
                 ) : (
                     <div>
                         <CircularProgress

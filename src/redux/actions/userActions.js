@@ -105,6 +105,29 @@ export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
         });
 };
 
+export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
+    dispatch
+) => {
+    console.log(submissionData);
+    console.log("GOOOO")
+    for(var pair of submissionData.entries()) {
+        console.log(pair[0]+', '+pair[1]);
+      }
+    axios
+        .post(
+            `/classrooms/${classroomId}/assignments/${assignmentId}/submissions`,
+            submissionData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        )
+        .then((res) => {
+            dispatch({});
+        });
+};
+
 const setAuthorizationHeader = (jwtoken) => {
     const JWToken = `Bearer ${jwtoken}`;
     localStorage.setItem("JWToken", JWToken);

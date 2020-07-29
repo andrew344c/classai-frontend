@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 // React Router
 import {
+    //Router,
     BrowserRouter as Router,
     Route,
     Switch,
@@ -42,6 +43,7 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
+                    {/**<Router history={history}> this shit keeps needing a refresh every redirect idk why */}
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/login" component={Login} />

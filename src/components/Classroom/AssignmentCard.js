@@ -12,6 +12,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 import tempImg from "../../assets/default-user-300x300.png";
+import SubmitAssignmentDialog from "./SubmitAssignmentDialog";
 
 const styles = (theme) => ({
     card: {
@@ -20,22 +21,57 @@ const styles = (theme) => ({
 });
 
 class AssignmentCard extends Component {
+    constructor() {
+        super();
+        this.state = {
+            dialogOpen: false,
+        };
+    }
+
+    onClick = () => {
+        console.log("lmao");
+        this.setState((oldState) => ({
+            ...oldState,
+            dialogOpen: true,
+        }));
+        console.log(this.state);
+    };
+
+    onClickAway = () => {
+        console.log("yuhhhh")
+        this.setState((oldState) => ({
+            ...oldState,
+            dialogOpen: false,
+        }));
+    };
+
     render() {
         const { classes, assignment } = this.props;
         return (
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography variant="h4">{assignment.name}</Typography>
-                    <hr />
-                    <Typography>{assignment.description}</Typography>
-                </CardContent>
-                <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                        <Avatar src={tempImg} />
-                    </ListItemAvatar>
-                    <ListItemText primary={`${assignment.creator.firstName} ${assignment.creator.lastName}`} secondary={assignment.creator.username} />
-                </ListItem>
-            </Card>
+            <div>
+                <Card className={classes.card} onClick={this.onClick}>
+                    <CardContent>
+                        <Typography variant="h4">{assignment.name}</Typography>
+                        <hr />
+                        <Typography>{assignment.description}</Typography>
+                    </CardContent>
+                    <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                            <Avatar src={tempImg} />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={`${assignment.creator.firstName} ${assignment.creator.lastName}`}
+                            secondary={assignment.creator.username}
+                        />
+                    </ListItem>
+                </Card>
+                <SubmitAssignmentDialog
+                    className="submitDialog"
+                    open={this.state.dialogOpen}
+                    onClickAway={this.onClickAway}
+                    assignmentId={assignment.id}
+                />
+            </div>
         );
     }
 }
