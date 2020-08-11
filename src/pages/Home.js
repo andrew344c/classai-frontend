@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 // Redux
 import { connect } from "react-redux";
-import { getClassrooms } from "../redux/actions/dataActions";
+import { getClassrooms, clearRedirect } from "../redux/actions/dataActions";
 
 // Components
 import Navigation from "../components/Navigation";
@@ -32,6 +32,7 @@ class Home extends Component {
         const { classes } = this.props;
 
         if (this.props.redirect) {
+            this.props.clearRedirect();
             return <Redirect to={this.props.redirect} />;
         } else {
             return this.props.authenticated ? (
@@ -65,6 +66,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionToProps = {
     getClassrooms,
+    clearRedirect,
 };
 
 export default connect(

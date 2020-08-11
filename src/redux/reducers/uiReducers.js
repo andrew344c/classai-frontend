@@ -14,7 +14,6 @@ export default (state = defaultState, action) => {
                 drawerOpen: !state.drawerOpen
             };
         case SET_ERRORS:
-            console.log(action.payload);
             return {
                 ...state,
                 errors: action.payload.error

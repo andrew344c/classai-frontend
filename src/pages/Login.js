@@ -74,8 +74,8 @@ class Login extends Component {
     };
 
     onSubmit = (event) => {
-        event.persist();
         event.preventDefault();
+        event.persist();
         this.props.login(this.state, this.props.history);
     };
 
@@ -92,7 +92,11 @@ class Login extends Component {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form
+                        className={classes.form}
+                        onSubmit={this.onSubmit}
+                        noValidate
+                    >
                         <TextField
                             variant="outlined"
                             margin="normal"

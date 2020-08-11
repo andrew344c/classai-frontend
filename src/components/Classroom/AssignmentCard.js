@@ -29,16 +29,13 @@ class AssignmentCard extends Component {
     }
 
     onClick = () => {
-        console.log("lmao");
         this.setState((oldState) => ({
             ...oldState,
             dialogOpen: true,
         }));
-        console.log(this.state);
     };
 
     onClickAway = () => {
-        console.log("yuhhhh")
         this.setState((oldState) => ({
             ...oldState,
             dialogOpen: false,

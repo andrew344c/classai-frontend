@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 // Redux
 import { connect } from "react-redux";
-import { getClassroom } from "../redux/actions/dataActions";
+import { getClassroom, clearRedirect } from "../redux/actions/dataActions";
 
 // Components
 import Navigation from "../components/Navigation";
@@ -38,6 +38,7 @@ class Classroom extends Component {
         const { classes, classroom } = this.props;
 
         if (this.props.redirect) {
+            this.props.clearRedirect();
             return <Redirect to={this.props.redirect} />;
         }
         // temp, store loading state in redux later
@@ -71,7 +72,6 @@ class Classroom extends Component {
                             <CreateAssignmentDialog />
                         </Grid>
                     </Grid>
-                    
                 ) : (
                     <div>
                         <CircularProgress
@@ -90,6 +90,7 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = {
     getClassroom,
+    clearRedirect,
 };
 
 export default withRouter(

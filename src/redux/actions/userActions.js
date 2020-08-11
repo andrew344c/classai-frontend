@@ -108,23 +108,18 @@ export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
 export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
     dispatch
 ) => {
-    console.log(submissionData);
-    console.log("GOOOO")
-    for(var pair of submissionData.entries()) {
-        console.log(pair[0]+', '+pair[1]);
-      }
     axios
         .post(
-            `/classrooms/${classroomId}/assignments/${assignmentId}/submissions`,
+            `/classrooms/${classroomId}/submissions/${assignmentId}`,
             submissionData,
             {
                 headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+                    "content-type": `multipart/form-data; boundary=${submissionData._boundary}`,
+                },
             }
         )
         .then((res) => {
-            dispatch({});
+            console.log(res)
         });
 };
 

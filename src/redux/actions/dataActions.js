@@ -3,6 +3,7 @@ import {
     GET_CLASSROOM,
     REDIRECT,
     CLEAR_REDIRECT,
+    GET_SUBMISSIONS,
 } from "../types";
 import axios from "axios";
 
@@ -25,7 +26,6 @@ export const getClassrooms = () => (dispatch) => {
 };
 
 export const getClassroom = (classroomId, history) => (dispatch) => {
-    console.log("get classroom");
     axios
         .get(`/classrooms/${classroomId}`)
         .then((res) => {
@@ -40,6 +40,19 @@ export const getClassroom = (classroomId, history) => (dispatch) => {
                 type: REDIRECT,
                 newLocation: "/login",
             });
+        });
+};
+
+export const getSubmissions = (classroomId, assignmentId) => (dispatch) => {
+    axios
+        .get(
+            `/classrooms/${classroomId}/submissions/${assignmentId}`
+        )
+        .then((res) => {
+            dispatch({
+                type: GET_SUBMISSIONS,
+                payload: res.data
+            })
         });
 };
 

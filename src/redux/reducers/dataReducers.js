@@ -5,11 +5,13 @@ import {
     CREATED_ASSIGNMENT,
     REDIRECT,
     CLEAR_REDIRECT,
+    GET_SUBMISSIONS,
 } from "../types";
 
 const defaultState = {
     classrooms: [],
     classroom: {},
+    submissions: [],
     redirect: false,
 };
 
@@ -40,6 +42,11 @@ export default (state = defaultState, action) => {
                         ...state.classroom.assignments,
                     ],
                 },
+            };
+        case GET_SUBMISSIONS:
+            return {
+                ...state,
+                submissions: action.payload.submissions,
             };
         case REDIRECT:
             return {
