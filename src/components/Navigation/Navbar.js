@@ -44,9 +44,6 @@ class Navbar extends Component {
         return (
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton onClick={this.props.toggleDrawer} style={{color: "white"}}>
-                        <MenuIcon />
-                    </IconButton>
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <Typography className={classes.title} variant="h6">
                             ClassAI
