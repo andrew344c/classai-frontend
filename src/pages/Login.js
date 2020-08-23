@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Logo from "./logo.png";
 
 // Redux
 import { connect } from "react-redux";
@@ -40,6 +41,8 @@ const styles = (theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
+        width: "100px",
+        height: "100px"
     },
     form: {
         textAlign: "center",
@@ -86,9 +89,7 @@ class Login extends Component {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
+                    <img src={Logo} style={{width: "100px"}} />
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
