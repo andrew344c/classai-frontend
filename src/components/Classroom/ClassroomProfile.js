@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 
-import { Paper, Typography } from "@material-ui/core";
-import CalendarToday from "@material-ui/icons/CalendarToday";
+import { Paper, Typography, Button } from "@material-ui/core";
+import { CalendarToday, DeleteForever } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
+
+import { connect } from "react-redux";
+import { deleteClassroom } from "../../redux/actions/userActions";
 
 import dayjs from "dayjs";
 
@@ -53,7 +56,12 @@ const styles = (theme) => ({
 });
 
 class ClassroomProfile extends Component {
+    onDelete = () => {
+        this.props.deleteClassroom(this.props.id);
+    };
+
     render() {
+        console.log(this.props);
         const { classes, name, description, createdAt } = this.props;
         return (
             <Paper className={classes.paper}>
@@ -76,10 +84,32 @@ class ClassroomProfile extends Component {
                             {dayjs(createdAt).format("MMM YYYY")}
                         </span>
                     </div>
+                    <div style={{ textAlign: "center", paddingTop: "2em" }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<DeleteForever />}
+                            onClick={this.onDelete}
+                        >
+                            Delete Classroom
+                        </Button>
+                    </div>
                 </div>
             </Paper>
         );
     }
 }
 
-export default withStyles(styles)(ClassroomProfile);
+const mapStateToProps = (state) => ({
+    ...state.data.classroom,
+});
+
+const mapActionToProps = {
+    deleteClassroom,
+};
+
+export default connect(
+    mapStateToProps,
+    mapActionToProps
+)(withStyles(styles)(ClassroomProfile));

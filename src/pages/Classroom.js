@@ -49,11 +49,7 @@ class Classroom extends Component {
                     <Grid container spacing={6} className={classes.grid}>
                         <Grid item sm={4} xs={12} className={classes.grid}>
                             <Grid item xs={12}>
-                                <ClassroomProfile
-                                    name={classroom.name}
-                                    description={classroom.description}
-                                    createdAt={classroom.createdAt}
-                                />
+                                <ClassroomProfile />
                             </Grid>
                             <Grid item xs={12}>
                                 <MemberList

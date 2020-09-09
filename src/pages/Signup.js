@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Logo from "./logo.png";
+import Logo from "../assets/logo.png";
 
 // Redux
 import { connect } from "react-redux";
@@ -90,9 +90,9 @@ class Signup extends Component {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <img src={Logo} style={{width: "100px"}} />
+                    <img src={Logo} alt="ClassAI Logo" style={{width: "100px"}} />
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        Sign Up
                     </Typography>
                     <form
                         className={classes.form}

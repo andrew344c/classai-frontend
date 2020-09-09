@@ -4,6 +4,7 @@ import {
     JOINED_CLASSROOM,
     CREATED_ASSIGNMENT,
     CLEAR_ERRORS,
+    REDIRECT,
 } from "../types";
 import axios from "axios";
 
@@ -94,6 +95,18 @@ export const createClassroom = (classroomInfo) => (dispatch) => {
     });
 };
 
+export const deleteClassroom = (classroomId) => (dispatch) => {
+    axios
+        .delete(`/classrooms/${classroomId}`)
+        .then((res) => {
+            alert(res.data.message);
+            dispatch({ type: REDIRECT, newLocation: "/" });
+        })
+        .catch((err) => {
+            alert(err.error);
+        });
+};
+
 export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
     axios
         .post(`/classrooms/${classroomId}/assignments`, assignmentInfo)
@@ -119,7 +132,7 @@ export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
             }
         )
         .then((res) => {
-            console.log(res)
+            console.log(res);
         });
 };
 
