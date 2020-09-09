@@ -90,8 +90,12 @@ class Signup extends Component {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <img src={Logo} alt="ClassAI Logo" style={{width: "100px"}} />
-                    <Typography component="h1" variant="h5">
+                    <img
+                        src={Logo}
+                        alt="ClassAI Logo"
+                        style={{ width: "100px", marginBottom: "1em" }}
+                    />
+                    <Typography component="h1" variant="h4">
                         Sign Up
                     </Typography>
                     <form

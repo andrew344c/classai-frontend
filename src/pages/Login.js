@@ -42,7 +42,7 @@ const styles = (theme) => ({
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
         width: "100px",
-        height: "100px"
+        height: "100px",
     },
     form: {
         textAlign: "center",
@@ -89,8 +89,12 @@ class Login extends Component {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <img src={Logo} alt="ClassAI Logo" style={{width: "100px"}} />
-                    <Typography component="h1" variant="h5">
+                    <img
+                        src={Logo}
+                        alt="ClassAI Logo"
+                        style={{ width: "100px", marginBottom: "1em" }}
+                    />
+                    <Typography component="h1" variant="h4">
                         Sign In
                     </Typography>
                     <form
