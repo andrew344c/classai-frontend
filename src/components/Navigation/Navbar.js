@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import { toggleDrawer } from "../../redux/actions/uiActions";
 import { logout } from "../../redux/actions/userActions";
 
-import Logo from "../../assets/logo_small.png";
+import Logo from "../../assets/logo.png";
 
 const styles = (theme) => ({
     appBar: {
@@ -49,7 +49,7 @@ class Navbar extends Component {
                     <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
                         <img src={Logo} style={{maxHeight: "3em"}} />
                         <Typography className={classes.title} variant="h6">
-                            ClassAI
+                            Nexus
                         </Typography>
                     </Link>
                     {!this.props.authenticated ? (

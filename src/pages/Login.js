@@ -91,7 +91,7 @@ class Login extends Component {
                 <div className={classes.paper}>
                     <img
                         src={Logo}
-                        alt="ClassAI Logo"
+                        alt="Nexus Logo"
                         style={{ width: "100px", marginBottom: "1em" }}
                     />
                     <Typography component="h1" variant="h4">
