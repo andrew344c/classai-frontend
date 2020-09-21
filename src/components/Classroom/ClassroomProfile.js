@@ -61,9 +61,7 @@ class ClassroomProfile extends Component {
     };
 
     render() {
-        console.log(this.props);
-        const { classes, name, description, createdAt } = this.props;
-        var location = window.location.pathname.substring(11,);
+        const { classes, name, description, createdAt, id } = this.props;
         return (
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
@@ -78,7 +76,7 @@ class ClassroomProfile extends Component {
                     <div className="profile-details">
                         <Typography variant="h5">{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
-                        <Typography variant="h8"><b>Class Code: {location}</b></Typography>
+                        <Typography variant="h8"><b>Class Code: {id}</b></Typography>
                         <hr />
                         <CalendarToday color="primary" />{" "}
                         <span>
