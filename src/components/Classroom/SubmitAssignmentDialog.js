@@ -84,7 +84,6 @@ class SubmitAssignmentDialog extends Component {
 
     onTextSubmit = () => {
         if (this.state.textValue === "") {
-            alert("WTF IS WRONG WITHYOU");
             this.setState((oldState) => ({
                 ...oldState,
                 textError: true,
