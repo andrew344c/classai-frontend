@@ -13,6 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import tempImg from "../../assets/default-user-300x300.png";
 import SubmitAssignmentDialog from "./SubmitAssignmentDialog";
+import SubmissionsViewDialog from "./SubmissionsViewDialog";
 
 const styles = (theme) => ({
     card: {
@@ -43,7 +44,7 @@ class AssignmentCard extends Component {
     };
 
     render() {
-        const { classes, assignment } = this.props;
+        const { classes, assignment, classroom } = this.props;
         return (
             <div>
                 <Card className={classes.card} onClick={this.onClick}>
@@ -62,12 +63,21 @@ class AssignmentCard extends Component {
                         />
                     </ListItem>
                 </Card>
-                <SubmitAssignmentDialog
-                    className="submitDialog"
-                    open={this.state.dialogOpen}
-                    onClickAway={this.onClickAway}
-                    assignmentId={assignment.id}
-                />
+                {classroom.isTeacher ? (
+                    <SubmissionsViewDialog
+                        className="submitDialog"
+                        open={this.state.dialogOpen}
+                        onClickAway={this.onClickAway}
+                        assignmentId={assignment.id}
+                    />
+                ) : (
+                    <SubmitAssignmentDialog
+                        className="submitDialog"
+                        open={this.state.dialogOpen}
+                        onClickAway={this.onClickAway}
+                        assignmentId={assignment.id}
+                    />
+                )}
             </div>
         );
     }

@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 // Redux
 import { connect } from "react-redux";
-import { createAssignment } from "../../redux/actions/userActions";
+import { createAssignment } from "../../../redux/actions/userActions";
 
 class CreateAssignmentDialog extends Component {
     constructor() {

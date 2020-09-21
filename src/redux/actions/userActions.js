@@ -136,6 +136,16 @@ export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
         });
 };
 
+export const uploadSubmissionText = (
+    submissionText,
+    classroomId,
+    assignmentId
+) => (dispatch) => {
+    return axios.post(`/classrooms${classroomId}/submissions/${assignmentId}`, {
+        submissionText,
+    });
+};
+
 const setAuthorizationHeader = (jwtoken) => {
     const JWToken = `Bearer ${jwtoken}`;
     localStorage.setItem("JWToken", JWToken);

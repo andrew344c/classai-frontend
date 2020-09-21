@@ -5,11 +5,11 @@ import { CalendarToday, DeleteForever } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 
 import { connect } from "react-redux";
-import { deleteClassroom } from "../../redux/actions/userActions";
+import { deleteClassroom } from "../../../redux/actions/userActions";
 
 import dayjs from "dayjs";
 
-import tempImg from "../../assets/default-classroom.png";
+import tempImg from "../../../assets/default-classroom.png";
 
 const styles = (theme) => ({
     paper: {
@@ -85,15 +85,6 @@ class ClassroomProfile extends Component {
                         </span>
                     </div>
                     <div style={{ textAlign: "center", paddingTop: "2em" }}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            startIcon={<DeleteForever />}
-                            onClick={this.onDelete}
-                        >
-                            Delete Classroom
-                        </Button>
                     </div>
                 </div>
             </Paper>

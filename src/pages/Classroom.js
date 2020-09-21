@@ -13,10 +13,11 @@ import { getClassroom, clearRedirect } from "../redux/actions/dataActions";
 
 // Components
 import Navigation from "../components/Navigation";
-import ClassroomProfile from "../components/Classroom/ClassroomProfile";
+import ClassroomProfileTeacher from "../components/Classroom/ClassroomTeacher/ClassroomProfileTeacher";
+import ClassroomProfileStudent from "../components/Classroom/ClassroomStudent/ClassroomProfileStudent";
 import MemberList from "../components/Classroom/MemberList";
 import AssignmentCard from "../components/Classroom/AssignmentCard";
-import CreateAssignmentDialog from "../components/Classroom/CreateAssignmentDialog";
+import CreateAssignmentDialog from "../components/Classroom/ClassroomTeacher/CreateAssignmentDialog";
 
 const styles = (theme) => ({
     grid: {
@@ -49,7 +50,11 @@ class Classroom extends Component {
                     <Grid container spacing={6} className={classes.grid}>
                         <Grid item sm={4} xs={12} className={classes.grid}>
                             <Grid item xs={12}>
-                                <ClassroomProfile />
+                                {classroom.isTeacher ? (
+                                    <ClassroomProfileTeacher />
+                                ) : (
+                                    <ClassroomProfileStudent />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
                                 <MemberList
@@ -63,9 +68,12 @@ class Classroom extends Component {
                                 <AssignmentCard
                                     key={assignment.id}
                                     assignment={assignment}
+                                    classroom={classroom}
                                 />
                             ))}
-                            <CreateAssignmentDialog />
+                            {classroom.isTeacher ? (
+                                <CreateAssignmentDialog />
+                            ) : null}
                         </Grid>
                     </Grid>
                 ) : (

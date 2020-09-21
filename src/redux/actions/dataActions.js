@@ -44,7 +44,7 @@ export const getClassroom = (classroomId, history) => (dispatch) => {
 };
 
 export const getSubmissions = (classroomId, assignmentId) => (dispatch) => {
-    axios
+    return axios
         .get(
             `/classrooms/${classroomId}/submissions/${assignmentId}`
         )

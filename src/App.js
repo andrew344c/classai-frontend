@@ -16,7 +16,7 @@ import jwtDecode from "jwt-decode";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Classroom from "./pages/Classroom"
+import Classroom from "./pages/Classroom";
 
 // Redux
 import { Provider } from "react-redux";
@@ -44,12 +44,16 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                    {/**<Router history={history}> this shit keeps needing a refresh every redirect idk why */}
+                    {/**<Router history={history}> this keeps needing a refresh every redirect idk why */}
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
-                        <Route exact path="/classroom/:classroomId" component={Classroom} />
+                        <Route
+                            exact
+                            path="/classroom/:classroomId"
+                            component={Classroom}
+                        />
 
                         <Redirect from="*" to="/" />
                     </Switch>
