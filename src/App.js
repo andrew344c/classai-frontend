@@ -30,8 +30,8 @@ import "./App.css";
 // Axios
 import axios from "axios";
 
-//axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
-axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
+axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
+//axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
 
 let token = localStorage.getItem("JWToken");
 if (token) {

@@ -79,6 +79,7 @@ class SubmitAssignmentDialog extends Component {
         this.setState((oldState) => ({
             ...oldState,
             textValue: newValue,
+            textError: false,
         }));
     };
 
@@ -334,7 +335,6 @@ class SubmitAssignmentDialog extends Component {
                             </TabPanel>
 
                             <TabPanel value={this.state.tabValue} index="text">
-
                                 {this.state.textError ? (
                                     <Alert
                                         id="notright"

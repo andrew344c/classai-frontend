@@ -141,7 +141,7 @@ export const uploadSubmissionText = (
     classroomId,
     assignmentId
 ) => (dispatch) => {
-    return axios.post(`/classrooms${classroomId}/submissions/${assignmentId}`, {
+    return axios.post(`/classrooms/${classroomId}/submissions/${assignmentId}`, {
         submissionText,
     });
 };

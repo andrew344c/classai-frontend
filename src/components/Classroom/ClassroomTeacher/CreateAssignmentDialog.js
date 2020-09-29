@@ -51,7 +51,14 @@ class CreateAssignmentDialog extends Component {
     };
 
     onSubmit = () => {
-        this.props.createAssignment(this.state, this.props.classroomId);
+        this.props.createAssignment(
+            {
+                name: this.state.name,
+                description: this.state.description,
+                dueDate: 0, // temporary
+            },
+            this.props.classroomId
+        );
         this.setState(() => ({
             name: "",
             description: "",
