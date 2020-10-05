@@ -1,0 +1,123 @@
+
+@font-face {
+    font-family: manropebold;
+    src: url(GradesFonts/manropebold.otf);
+  }
+  
+  @font-face {
+    font-family: manropelight;
+    src: url(GradesFonts/manropelight.otf);
+  }
+  
+  @font-face {
+    font-family: manropemedium;
+    src: url(GradesFonts/manropemedium.otf);
+  }
+  
+  @font-face {
+    font-family: manrope;
+    src: url(GradesFonts/manroperegular.otf);
+  }
+  
+  @font-face {
+    font-family: manropesemibold;
+    src: url(GradesFonts/manropesemibold.otf);
+  }
+  
+  @font-face {
+    font-family: manropethin;
+    src: url(GradesFonts/manropethin.otf);
+  }
+
+  /*
+  .gradesBody {
+    background-color: #16113a;
+    font-family: manrope;
+    overflow-x: hidden;
+  }
+  */
+  
+  .container-grades {
+    margin-top: 5vh;
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 5vh;
+  }
+  
+  .widget-part {
+    color: white;
+  }
+  
+  .widget-part .card {
+    border: 0px;
+  }
+  
+  .widget-part h3 {
+    font-family: manropebold;
+  }
+  
+  .widget-part h5 {
+    font-family: manropethin;
+  }
+  
+  .widget-part {
+    border-radius: 10px;
+    background-color: #272953;
+  }
+  
+  .widget-part .individual-grade {
+    border-top: 1px solid white;
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+  }
+  
+  .widget-part .individual-grade h2 {
+    font-family: manropebold;
+  }
+  
+  .widget-part .individual-grade h6 {
+    font-family: manropethin;
+  }
+  
+  img.graph {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .widget-part .text-top {
+    padding: 2.5vh;
+  }
+  
+  .container-grades .all-grades {
+    margin-top: 2.5vh;
+    padding-left: 2.5vh;
+    padding-right: 2.5vh;
+    overflow-y: scroll;
+    height: 500px;
+  }
+  
+  .container-grades .all-grades .categories {
+    padding-bottom: 1vh;
+  }
+  
+  .container-grades .all-grades .assignment {
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    border-top: 1px solid white;
+  }
+  
+  .all-grades::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  .all-grades::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .all-grades::-webkit-scrollbar-thumb {
+    background: black;
+  }
+  
+  .all-grades::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
