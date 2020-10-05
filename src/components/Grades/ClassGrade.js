@@ -2,7 +2,9 @@ import React, { Component } from "react";
 
 export default class ClassGrade extends Component {
     render() {
-        
+        const { cardNumber } = this.props;
+
+        const tabContent = `accordion-tab-1-content-${cardNumber}`
         return (
             <div className="card widget-part">
                 <div
@@ -12,9 +14,9 @@ export default class ClassGrade extends Component {
                     <div
                         className="individual-grade row"
                         data-toggle="collapse"
-                        data-target="#accordion-tab-1-content-1"
+                        data-target={`#${tabContent}`}
                         aria-expanded="false"
-                        aria-controls="accordion-tab-1-content-1"
+                        aria-controls={tabContent}
                     >
                         <div className="col-3 d-inline">
                             <h2 className="text-center">A+</h2>
@@ -27,7 +29,7 @@ export default class ClassGrade extends Component {
                 </div>
                 <div
                     className="collapse"
-                    id="accordion-tab-1-content-1"
+                    id={tabContent}
                     aria-labelledby="accordion-tab-1-heading-1"
                     data-parent="#accordion-tab-1"
                 >

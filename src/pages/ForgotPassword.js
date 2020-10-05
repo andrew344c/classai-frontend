@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 // Material UI
 import Avatar from "@material-ui/core/Avatar";
@@ -14,10 +14,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../assets/logo.png";
 
-// Redux
-import { connect } from "react-redux";
-import { login } from "../redux/actions/userActions";
-
+import firebase from "../Firebase";
 
 function Copyright() {
     return (
@@ -32,6 +29,7 @@ function Copyright() {
     );
 }
 
+let auth = firebase.auth();
 
 const styles = (theme) => ({
     paper: {
@@ -55,8 +53,12 @@ const styles = (theme) => ({
         color: "red",
         marginBottom: "0.2em",
     },
+    success: {
+        color: "green",
+        marginBottom: "0.2em",
+    },
     submit: {
-        margin: theme.spacing(3, 0, 1),
+        marginTop: "1em",
     },
 });
 
@@ -65,7 +67,8 @@ class Login extends Component {
         super();
         this.state = {
             email: "",
-            password: "",
+            reset: false,
+            errors: "",
         };
     }
 
@@ -78,14 +81,28 @@ class Login extends Component {
         }));
     };
 
-    onSubmit = (event) => {
+    sendResetEmail = (event) => {
         event.preventDefault();
         event.persist();
-        this.props.login(this.state, this.props.history);
+        auth.sendPasswordResetEmail(this.state.email)
+            .then(() => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    errors: false,
+                    reset: true,
+                }));
+            })
+            .catch((err) => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    errors: "Email is not recognized",
+                }));
+            });
     };
 
     render() {
-        const { classes, errors } = this.props;
+        const { classes } = this.props;
+        const { errors, reset } = this.state;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -97,7 +114,7 @@ class Login extends Component {
                         style={{ width: "100px", marginBottom: "1em" }}
                     />
                     <Typography component="h1" variant="h4">
-                        Sign In
+                        Reset Password
                     </Typography>
                     <form
                         className={classes.form}
@@ -116,27 +133,16 @@ class Login extends Component {
                             autoComplete="email"
                             autoFocus
                         />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            onChange={this.onChange}
-                            autoComplete="current-password"
-                        />
+
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            onClick={this.onSubmit}
+                            onClick={this.sendResetEmail}
                             className={classes.submit}
                         >
-                            Sign In
+                            Send Reset Password Email
                         </Button>
                         {errors !== null ? (
                             <Typography
@@ -146,19 +152,22 @@ class Login extends Component {
                                 {errors}
                             </Typography>
                         ) : null}
+                        {reset ? (
+                            <Typography className={classes.success} variant="body2">
+                                An email from nexusedu.app will be sent to your
+                                email at {this.state.email}. If you have not
+                                received this email in an hour, please try again
+                                or contact us if this issues continues.
+                            </Typography>
+                        ) : null}
                         <Grid container>
-                            <Grid item xs>
-                                <Link href="/forgot" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
                             <Grid item>
-                                <Link href="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link href="/login" variant="body2">
+                                    {"Back to Sign In"}
                                 </Link>
                             </Grid>
                         </Grid>
-                    </form>
+                    </form>{" "}
                 </div>
                 <Box mt={8}>
                     <Copyright />
@@ -168,15 +177,4 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    errors: state.ui.errors,
-});
-
-const mapActionsToProps = {
-    login,
-};
-
-export default connect(
-    mapStateToProps,
-    mapActionsToProps
-)(withStyles(styles)(Login));
+export default withStyles(styles)(Login);

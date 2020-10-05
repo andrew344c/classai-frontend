@@ -56,6 +56,8 @@ class CreateAssignmentDialog extends Component {
                 name: this.state.name,
                 description: this.state.description,
                 dueDate: 0, // temporary
+                type: 0, //temp
+                points: 0, //temp
             },
             this.props.classroomId
         );

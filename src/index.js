@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+
 (function(w, d) {
     w.CollectId = "5f2d93ecfbcd8608aad64406";
     var h = d.head || d.getElementsByTagName("head")[0];

@@ -17,6 +17,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Classroom from "./pages/Classroom";
+import BetaHome from "./pages/BetaHome";
+import ForgotPassword from "./pages/ForgotPassword";
+import Grades from "./pages/Grades";
 
 // Redux
 import { Provider } from "react-redux";
@@ -30,8 +33,9 @@ import "./App.css";
 // Axios
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
-//axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
+
+//axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
+axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
 
 let token = localStorage.getItem("JWToken");
 if (token) {
@@ -54,6 +58,9 @@ class App extends Component {
                             path="/classroom/:classroomId"
                             component={Classroom}
                         />
+                        <Route exact path="/forgot" component={ForgotPassword} />
+                        <Route exact path="/welcome" component={BetaHome} />
+                        <Route exact path="/grades" component={Grades} />
 
                         <Redirect from="*" to="/" />
                     </Switch>

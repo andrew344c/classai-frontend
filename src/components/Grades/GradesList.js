@@ -30,7 +30,9 @@ export default class GradesList extends Component {
                                                 className="accordion widget-part"
                                                 id="accordion-tab-1"
                                             >
-                                                <ClassGrade />
+                                                {/* for testing */}
+                                                <ClassGrade cardNumber={1} />
+                                                <ClassGrade cardNumber={2} />
                                             </div>
                                         </div>
                                     </div>
