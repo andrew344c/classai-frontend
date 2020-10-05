@@ -5,12 +5,17 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 // Material UI
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
-import { Toolbar } from "@material-ui/core";
+import {
+    Toolbar,
+    Avatar,
+    Popover,
+    Card,
+    AppBar,
+    IconButton,
+    Button,
+    Typography,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 // Redux
@@ -19,6 +24,8 @@ import { toggleDrawer } from "../../redux/actions/uiActions";
 import { logout } from "../../redux/actions/userActions";
 
 import Logo from "../../assets/logo.png";
+import tempImg from "../../assets/default-user-300x300.png";
+import NavProfile from "./NavProfile";
 
 const styles = (theme) => ({
     appBar: {
@@ -32,7 +39,7 @@ const styles = (theme) => ({
     leftmostRightGroupButton: {
         marginLeft: "auto",
         textDecoration: "none",
-        color: "white"
+        color: "white",
     },
     link: {
         textDecoration: "none",
@@ -40,39 +47,76 @@ const styles = (theme) => ({
 });
 
 class Navbar extends Component {
+    constructor() {
+        super();
+        this.state = {
+            profileAnchor: null,
+        };
+    }
+
+    onProfileClick = (event) => {
+        event.persist();
+        event.preventDefault();
+
+        this.setState({
+            profileAnchor: event.currentTarget,
+        });
+        console.log(this.state);
+    };
+
+    onProfileClose = (event) => {
+        this.setState({ profileAnchor: null });
+    };
+
     render() {
         const { classes } = this.props;
 
         return (
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
-                    <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-                        <img src={Logo} style={{maxHeight: "3em"}} />
+                    <Link
+                        to="/"
+                        style={{
+                            textDecoration: "none",
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <img
+                            src={Logo}
+                            style={{ maxHeight: "3em" }}
+                            alt="Nexus Logo"
+                        />
                         <Typography className={classes.title} variant="h6">
                             Nexus
                         </Typography>
                     </Link>
-                    {!this.props.authenticated ? (
-                        <Fragment>
-                            <Link
-                                to="/login"
-                                className={classes.leftmostRightGroupButton}
-                            >
-                                Login
-                            </Link>
-                            <Link to="/signup" className={classes.link}>
-                                Signup
-                            </Link>
-                        </Fragment>
-                    ) : (
-                        <Link
-                            to="/login"
-                            className={classes.leftmostRightGroupButton}
-                            onClick={this.props.logout}
-                        >
-                            Logout
-                        </Link>
-                    )}
+
+                    <Avatar
+                        src={tempImg}
+                        className={classes.leftmostRightGroupButton}
+                        onClick={this.onProfileClick}
+                    />
+                    <Popover
+                        id={
+                            this.state.profileAnchor === null
+                                ? undefined
+                                : "simple-pooper"
+                        }
+                        open={this.state.profileAnchor !== null}
+                        onClose={this.onProfileClose}
+                        anchorEl={this.state.profileAnchor}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                        }}
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                    >
+                        <NavProfile />
+                    </Popover>
                 </Toolbar>
             </AppBar>
         );

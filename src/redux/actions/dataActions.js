@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 export const getClassrooms = () => (dispatch) => {
-    axios
+    return axios
         .get("/classrooms")
         .then((res) => {
             dispatch({

@@ -50,7 +50,7 @@ export const signup = (userData, history) => (dispatch) => {
 };
 
 export const logout = (history) => (dispatch) => {
-    axios
+    return axios
         .post("/users/logout")
         .then((res) => {
             axios.defaults.headers.common["Authorization"] = "";

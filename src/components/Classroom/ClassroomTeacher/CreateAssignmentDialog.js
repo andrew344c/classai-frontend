@@ -23,13 +23,13 @@ import { createAssignment } from "../../../redux/actions/userActions";
 
 
 const defaultState = {
+    open: false,
     name: "",
     description: "",
-    dueDate: "",
-    points: "",
-    open: false,
     graded: false,
     hasDueDate: false,
+    points: "",
+    dueDate: "",
     gradedError: false,
 };
 

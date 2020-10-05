@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 
 // Material UI
 import { withStyles } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
 
 // Redux
 import { connect } from "react-redux";
@@ -24,15 +25,22 @@ const styles = (theme) => ({
 });
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loaded: false,
+        };
+    }
+
     componentDidMount() {
-        this.props.getClassrooms();
+        this.props.getClassrooms().then(() => {
+            this.setState({ loaded: true });
+        });
     }
 
     render() {
         const { classes } = this.props;
 
-        console.log(this.props.authenticated);
-        
         if (this.props.redirect) {
             this.props.clearRedirect();
             return <Redirect to={this.props.redirect} />;
@@ -41,15 +49,21 @@ class Home extends Component {
                 <Fragment>
                     <Navigation />
                     <div className={classes.classroomsContainer}>
-                        {this.props.classrooms.map((classroom) => {
-                            return (
-                                <ClassroomSummaryCard
-                                    key={classroom.classroomId}
-                                    history={this.props.history}
-                                    classroom={classroom}
-                                />
-                            );
-                        })}
+                        {this.state.loaded ? (
+                            this.props.classrooms.map((classroom) => {
+                                return (
+                                    <ClassroomSummaryCard
+                                        key={classroom.classroomId}
+                                        history={this.props.history}
+                                        classroom={classroom}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <CircularProgress
+                                style={{ display: "block", margin: "0 auto" }}
+                            />
+                        )}
                         <AddClassroomDialog />
                     </div>
                 </Fragment>
