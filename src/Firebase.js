@@ -1,5 +1,6 @@
 import firebase from "firebase";
 
+// only used for forget password, db access denied compeletly for client
 const firebaseConfig = {
     apiKey: "AIzaSyC8gHgffmgfNvL_6EB678f4qYVeITqQPEw",
     authDomain: "classai.firebaseapp.com",

@@ -8,6 +8,7 @@ import {
     ListItemAvatar,
     ListItemText,
     Avatar,
+    Paper,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -18,6 +19,7 @@ import SubmissionsViewDialog from "./SubmissionsViewDialog";
 const styles = (theme) => ({
     card: {
         marginBottom: 20,
+        wordWrap: "break-word",
     },
 });
 
@@ -51,8 +53,11 @@ class AssignmentCard extends Component {
                     <CardContent>
                         <Typography variant="h4">{assignment.name}</Typography>
                         <hr />
-                        <Typography>{assignment.description}</Typography>
+                        <Typography style={{ whiteSpace: "pre-wrap" }}>
+                            {assignment.description}
+                        </Typography>
                     </CardContent>
+
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
                             <Avatar src={tempImg} />

@@ -105,6 +105,7 @@ class CreateAssignmentDialog extends Component {
                         <TextField
                             autoFocus
                             margin="dense"
+                            multiline
                             label="Assignment Description"
                             name="description"
                             onChange={this.onChange}
