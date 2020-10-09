@@ -27,11 +27,12 @@ export const login = (userData, history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data,
             });
+            throw err;
         });
 };
 
 export const signup = (userData, history) => (dispatch) => {
-    axios
+    return axios
         .post("/users/signup", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
@@ -53,6 +54,7 @@ export const signup = (userData, history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data,
             });
+            throw err;
         });
 };
 
@@ -72,11 +74,12 @@ export const logout = (history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data,
             });
+            throw err;
         });
 };
 
 export const joinClassroom = (classroomId) => (dispatch) => {
-    axios
+    return axios
         .post("/classrooms/join/" + classroomId.trim())
         .then((res) => {
             dispatch({
@@ -94,7 +97,7 @@ export const joinClassroom = (classroomId) => (dispatch) => {
 };
 
 export const createClassroom = (classroomInfo) => (dispatch) => {
-    axios.post("/classrooms/create", classroomInfo).then((res) => {
+    return axios.post("/classrooms/create", classroomInfo).then((res) => {
         dispatch({
             type: JOINED_CLASSROOM,
             newClassroom: res.data,
@@ -103,18 +106,15 @@ export const createClassroom = (classroomInfo) => (dispatch) => {
 };
 
 export const deleteClassroom = (classroomId) => (dispatch) => {
-    axios
+    return axios
         .delete(`/classrooms/${classroomId}`)
         .then((res) => {
             alert(res.data.message);
         })
-        .catch((err) => {
-            alert(err.error);
-        });
 };
 
 export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
-    axios
+    return axios
         .post(`/classrooms/${classroomId}/assignments`, assignmentInfo)
         .then((res) => {
             dispatch({
@@ -127,7 +127,7 @@ export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
 export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
     dispatch
 ) => {
-    axios
+    return axios
         .post(
             `/classrooms/${classroomId}/submissions/${assignmentId}`,
             submissionData,

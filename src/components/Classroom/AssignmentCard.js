@@ -13,8 +13,8 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 import tempImg from "../../assets/default-user-300x300.png";
-import SubmitAssignmentDialog from "./SubmitAssignmentDialog";
-import SubmissionsViewDialog from "./SubmissionsViewDialog";
+import SubmitAssignmentDialog from "./ClassroomStudent/SubmitAssignmentDialog";
+import SubmissionsViewDialog from "./ClassroomTeacher/SubmissionsViewDialog";
 
 const styles = (theme) => ({
     card: {

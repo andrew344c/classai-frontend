@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { getSubmissions } from "../../redux/actions/dataActions";
+import { getSubmissions } from "../../../redux/actions/dataActions";
 
 import {
     Dialog,
@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { SportsRugbySharp } from "@material-ui/icons";
+import LoadingBackdrop from "../../LoadingBackdrop";
 
 const styles = (theme) => ({
     paper: {
@@ -28,11 +29,6 @@ const styles = (theme) => ({
     },
     loading: {
         margin: "0 auto",
-    },
-    backdrop: {
-        color: "fff",
-        //backgroundColor: "rgba(255, 255, 255, 0.5)",
-        zIndex: 10,
     },
 });
 
@@ -85,17 +81,18 @@ class SubmissionsViewDialog extends Component {
                 maxWidth={"md"}
                 open={this.props.open}
                 onClose={this.props.onClickAway}
-                contentStyle={{ minWidth: "30vw", padding: "5%", minHeight: "30vh" }}
+                contentStyle={{
+                    minWidth: "30vw",
+                    padding: "5%",
+                    minHeight: "30vh",
+                }}
             >
                 {content}
             </Dialog>
         ) : (
-            <Backdrop
-                className={classes.backdrop}
+            <LoadingBackdrop
                 open={!this.state.gotSubmissions && this.props.open}
-            >
-                <CircularProgress className={classes.loading} />
-            </Backdrop>
+            />
         );
     }
 }

@@ -21,6 +21,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import tempImg from "../../assets/default-user-300x300.png";
+import LoadingBackdrop from "../LoadingBackdrop";
 
 const styles = (theme) => ({
     profileName: {
@@ -32,10 +33,23 @@ const styles = (theme) => ({
 });
 
 class NavProfile extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loggingOut: false,
+        };
+    }
+
     onLogout = () => {
-        this.props.logout().then(() => {
-            this.props.history.push("/login");
-        });
+        this.setState({ loggingOut: true });
+        this.props
+            .logout()
+            .then(() => {
+                this.props.history.push("/login");
+            })
+            .catch(() => {
+                this.setState({ loggingOut: false });
+            });
     };
 
     render() {
@@ -73,6 +87,7 @@ class NavProfile extends Component {
                         <Typography>Log Out</Typography>
                     </ListItem>
                 </Button>
+                <LoadingBackdrop open={this.state.loggingOut} />
             </Paper>
         );
     }

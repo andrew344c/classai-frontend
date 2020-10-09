@@ -19,6 +19,7 @@ import {
     joinClassroom,
     createClassroom,
 } from "../../redux/actions/userActions";
+import LoadingBackdrop from "../LoadingBackdrop";
 
 class AddClassroomDialog extends Component {
     constructor() {
@@ -29,6 +30,7 @@ class AddClassroomDialog extends Component {
             classroomDescription: "",
             open: false,
             joiningClassroom: true,
+            loading: false,
         };
     }
 
@@ -71,15 +73,41 @@ class AddClassroomDialog extends Component {
 
     onSubmit = () => {
         this.onClickAway();
+        this.setState((oldState) => ({
+            ...oldState,
+            loading: true,
+        }));
+
+        let removeLoading = (oldState) => ({
+            ...oldState,
+            loading: false,
+        });
+
         if (this.state.joiningClassroom) {
-            this.props.joinClassroom(this.state.classroomId);
+            this.props
+                .joinClassroom(this.state.classroomId)
+                .then(() => {
+                    this.setState(removeLoading);
+                })
+                .catch(() => {
+                    alert("Something went wrong, please try again later.");
+                    this.setState(removeLoading);
+                });
         } else {
-            this.props.createClassroom({
-                name: this.state.classroomName,
-                description: this.state.classroomDescription,
-                teachers: [],
-                students: [],
-            });
+            this.props
+                .createClassroom({
+                    name: this.state.classroomName,
+                    description: this.state.classroomDescription,
+                    teachers: [],
+                    students: [],
+                })
+                .then(() => {
+                    this.setState(removeLoading);
+                })
+                .catch(() => {
+                    alert("Something went wrong, please try again later.");
+                    this.setState(removeLoading);
+                });
         }
     };
 
@@ -187,6 +215,7 @@ class AddClassroomDialog extends Component {
                         </Fragment>
                     )}
                 </Dialog>
+                <LoadingBackdrop open={this.state.loading} />
             </div>
         );
     }

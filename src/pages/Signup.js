@@ -17,6 +17,7 @@ import Logo from "../assets/logo.png";
 // Redux
 import { connect } from "react-redux";
 import { signup } from "../redux/actions/userActions";
+import LoadingBackdrop from "../components/LoadingBackdrop";
 
 function Copyright() {
     return (
@@ -65,6 +66,7 @@ class Signup extends Component {
             username: "",
             email: "",
             password: "",
+            signingUp: false,
         };
     }
 
@@ -80,7 +82,16 @@ class Signup extends Component {
     onSubmit = (event) => {
         event.persist();
         event.preventDefault();
-        this.props.signup(this.state, this.props.history);
+        this.setState((oldState) => ({
+            ...oldState,
+            signingUp: true,
+        }));
+        this.props.signup(this.state, this.props.history).catch(() => {
+            this.setState((oldState) => ({
+                ...oldState,
+                signingUp: false,
+            }));
+        });
     };
 
     render() {
@@ -196,6 +207,7 @@ class Signup extends Component {
                 <Box mt={5}>
                     <Copyright />
                 </Box>
+                <LoadingBackdrop open={this.state.signingUp} />
             </Container>
         );
     }

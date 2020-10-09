@@ -20,7 +20,7 @@ import AddIcon from "@material-ui/icons/Add";
 // Redux
 import { connect } from "react-redux";
 import { createAssignment } from "../../../redux/actions/userActions";
-
+import LoadingBackdrop from "../../LoadingBackdrop";
 
 const defaultState = {
     open: false,
@@ -29,8 +29,11 @@ const defaultState = {
     graded: false,
     hasDueDate: false,
     points: 0,
-    dueDate: "",
+    dueDateMUI: "",
     gradedError: false,
+    creatingAssignment: false,
+    serverError: false,
+    dueDate: null,
 };
 
 class CreateAssignmentDialog extends Component {
@@ -43,10 +46,11 @@ class CreateAssignmentDialog extends Component {
         event.persist();
         event.preventDefault();
 
-        if (event.target.name === "dueDate") {
-            event.target.value = new Date(
-                event.target.value + ":00"
-            ).toISOString();
+        if (event.target.name === "dueDateMUI") {
+            this.setState((oldState) => ({
+                ...oldState,
+                dueDate: new Date(event.target.value + ":00").toISOString(),
+            }));
         } else if (event.target.name === "points") {
             let pointsNum = event.target.value;
             if (isNaN(parseFloat(pointsNum)) || parseFloat(pointsNum) < 0) {
@@ -62,7 +66,6 @@ class CreateAssignmentDialog extends Component {
             [event.target.name]: event.target.value,
             gradedError: false,
         }));
-        console.log(this.state);
     };
 
     onSwitch = (event) => {
@@ -90,7 +93,19 @@ class CreateAssignmentDialog extends Component {
     };
 
     onSubmit = () => {
-        this.props.createAssignment(this.state, this.props.classroomId);
+        this.setState((oldState) => ({
+            ...oldState,
+            creatingAssignment: true,
+        }));
+        this.props
+            .createAssignment(this.state, this.props.classroomId)
+            .catch(() => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    creatingAssignment: false,
+                    serverError: true,
+                }));
+            });
         this.setState(defaultState);
     };
 
@@ -143,7 +158,7 @@ class CreateAssignmentDialog extends Component {
                             <TextField
                                 id="datetime-local"
                                 label="Due Date"
-                                name="dueDate"
+                                name="dueDateMUI"
                                 type="datetime-local"
                                 style={{ marginTop: "1em" }}
                                 defaultValue=""
@@ -202,6 +217,7 @@ class CreateAssignmentDialog extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <LoadingBackdrop open={this.state.creatingAssignment} />
             </div>
         );
     }

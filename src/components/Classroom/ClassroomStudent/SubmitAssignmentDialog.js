@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import {
     uploadSubmission,
     uploadSubmissionText,
-} from "../../redux/actions/userActions";
-import { getSubmissions } from "../../redux/actions/dataActions";
+} from "../../../redux/actions/userActions";
+import { getSubmissions } from "../../../redux/actions/dataActions";
 
 import {
     Dialog,
@@ -21,6 +21,7 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/styles";
+import LoadingBackdrop from "../../LoadingBackdrop";
 
 const styles = (theme) => ({
     paper: {
@@ -65,6 +66,7 @@ class SubmitAssignmentDialog extends Component {
             textValue: "",
             textError: false,
             textSuccess: false,
+            loading: false,
         };
     }
 
@@ -90,6 +92,10 @@ class SubmitAssignmentDialog extends Component {
                 textError: true,
             }));
         } else {
+            this.setState((oldState) => ({
+                ...oldState,
+                loading: true,
+            }));
             this.props
                 .uploadSubmissionText(
                     this.state.textValue,
@@ -101,12 +107,14 @@ class SubmitAssignmentDialog extends Component {
                         ...oldState,
                         textError: false,
                         textSuccess: true,
+                        loading: false,
                     }));
                 })
                 .catch((err) => {
                     this.setState((oldState) => ({
                         ...oldState,
                         textError: true,
+                        loading: false,
                     }));
                 });
         }
@@ -121,20 +129,43 @@ class SubmitAssignmentDialog extends Component {
     onFileSubmit = () => {
         const formData = new FormData();
         if (this.state.selectedFile != null) {
+            this.setState((oldState) => ({
+                ...oldState,
+                loading: true,
+            }));
             formData.append(
                 "submission",
                 this.state.selectedFile,
                 this.state.selectedFile.name
             );
-            this.props.uploadSubmission(
-                formData,
-                this.props.classroomId,
-                this.props.assignmentId
-            );
-            document.getElementById("right").style.display = "flex";
-            setTimeout(function () {
-                document.getElementById("right").style.display = "none";
-            }, 3000);
+            this.props
+                .uploadSubmission(
+                    formData,
+                    this.props.classroomId,
+                    this.props.assignmentId
+                )
+                .then(() => {
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                    }));
+                    document.getElementById("right").style.display = "flex";
+                    setTimeout(function () {
+                        document.getElementById("right").style.display = "none";
+                    }, 3000);
+                })
+                .catch(() => {
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                    }));
+                    // change this later to using state
+                    document.getElementById("notright2").style.display = "flex";
+                    setTimeout(function () {
+                        document.getElementById("notright2").style.display =
+                            "none";
+                    }, 3000);
+                });
         } else {
             document.getElementById("notright").style.display = "flex";
             setTimeout(function () {
@@ -260,6 +291,15 @@ class SubmitAssignmentDialog extends Component {
                                     Please upload a file before you submit
                                 </Alert>
                                 <Alert
+                                    id="notright2"
+                                    style={{ display: "none" }}
+                                    variant="outlined"
+                                    severity="error"
+                                >
+                                    Something went wrong, please try again
+                                    later.
+                                </Alert>
+                                <Alert
                                     id="right"
                                     style={{ display: "none" }}
                                     variant="outlined"
@@ -302,34 +342,6 @@ class SubmitAssignmentDialog extends Component {
                                                 Submit
                                             </Button>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item xs={12} spacing={3}>
-                                        {this.props.submissions.map(
-                                            (submission) => {
-                                                console.log(submission);
-                                                return (
-                                                    <Paper
-                                                        className={
-                                                            classes.paper
-                                                        }
-                                                    >
-                                                        <Typography variant="h4">{`${submission.creator.firstName} ${submission.creator.lastName}`}</Typography>
-                                                        <img
-                                                            src={
-                                                                submission.downloadUrl
-                                                            }
-                                                            key={submission.id}
-                                                            className={
-                                                                classes.img
-                                                            }
-                                                            alt="submission"
-                                                        />
-                                                        <Typography>{`Text Derived From OCR: ${submission.text}`}</Typography>
-                                                        <Typography>{`Similar Websites to Submission: ${submission.plagarismLinks}`}</Typography>
-                                                    </Paper>
-                                                );
-                                            }
-                                        )}
                                     </Grid>
                                 </Grid>
                             </TabPanel>
@@ -377,6 +389,7 @@ class SubmitAssignmentDialog extends Component {
                             </TabPanel>
                         </div>
                     </div>
+                    <LoadingBackdrop open={this.state.loading} />
                 </Dialog>
             </div>
         );

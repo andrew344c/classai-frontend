@@ -80,7 +80,7 @@ class ClassroomProfile extends Component {
                     <div className="profile-details">
                         <Typography variant="h5">{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
-                        <Typography variant="h8">
+                        <Typography>
                             <b>Class Code: {id}</b>
                         </Typography>
                         <hr />
