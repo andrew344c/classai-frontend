@@ -1,8 +1,6 @@
 import {
     GET_CLASSROOMS,
     GET_CLASSROOM,
-    REDIRECT,
-    CLEAR_REDIRECT,
     GET_SUBMISSIONS,
 } from "../types";
 import axios from "axios";
@@ -17,16 +15,13 @@ export const getClassrooms = () => (dispatch) => {
             });
         })
         .catch((err) => {
-            //pushHistory("/login");
-            dispatch({
-                type: REDIRECT,
-                newLocation: "/login",
-            });
+            console.error(err);
+            throw err;
         });
 };
 
 export const getClassroom = (classroomId, history) => (dispatch) => {
-    axios
+    return axios
         .get(`/classrooms/${classroomId}`)
         .then((res) => {
             dispatch({
@@ -34,13 +29,6 @@ export const getClassroom = (classroomId, history) => (dispatch) => {
                 payload: res.data,
             });
         })
-        .catch((err) => {
-            //pushHistory("/login");
-            dispatch({
-                type: REDIRECT,
-                newLocation: "/login",
-            });
-        });
 };
 
 export const getSubmissions = (classroomId, assignmentId) => (dispatch) => {
@@ -56,8 +44,3 @@ export const getSubmissions = (classroomId, assignmentId) => (dispatch) => {
         });
 };
 
-export const clearRedirect = () => (dispatch) => {
-    dispatch({
-        type: CLEAR_REDIRECT,
-    });
-};

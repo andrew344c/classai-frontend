@@ -4,7 +4,6 @@ import {
     JOINED_CLASSROOM,
     CREATED_ASSIGNMENT,
     CLEAR_ERRORS,
-    REDIRECT,
 } from "../types";
 import axios from "axios";
 
@@ -99,7 +98,6 @@ export const deleteClassroom = (classroomId) => (dispatch) => {
         .delete(`/classrooms/${classroomId}`)
         .then((res) => {
             alert(res.data.message);
-            dispatch({ type: REDIRECT, newLocation: "/" });
         })
         .catch((err) => {
             alert(err.error);

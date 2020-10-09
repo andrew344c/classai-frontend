@@ -7,6 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { deleteClassroom } from "../../../redux/actions/userActions";
 
+import { withRouter } from "react-router";
+
 import dayjs from "dayjs";
 
 import tempImg from "../../../assets/default-classroom.png";
@@ -57,7 +59,9 @@ const styles = (theme) => ({
 
 class ClassroomProfile extends Component {
     onDelete = () => {
-        this.props.deleteClassroom(this.props.id);
+        this.props.deleteClassroom(this.props.id).then(() => {
+            this.props.history.push("/");
+        });
     };
 
     render() {
@@ -76,7 +80,9 @@ class ClassroomProfile extends Component {
                     <div className="profile-details">
                         <Typography variant="h5">{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
-                        <Typography variant="h8"><b>Class Code: {id}</b></Typography>
+                        <Typography variant="h8">
+                            <b>Class Code: {id}</b>
+                        </Typography>
                         <hr />
                         <CalendarToday color="primary" />{" "}
                         <span>
@@ -109,7 +115,7 @@ const mapActionToProps = {
     deleteClassroom,
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapActionToProps
-)(withStyles(styles)(ClassroomProfile));
+)(withStyles(styles)(ClassroomProfile)));

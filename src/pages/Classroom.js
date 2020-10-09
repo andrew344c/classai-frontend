@@ -1,15 +1,12 @@
 import React, { Component, Fragment } from "react";
 
-// React Router
-import { withRouter, Redirect } from "react-router";
-
 // Material UI
 import { Grid, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 // Redux
 import { connect } from "react-redux";
-import { getClassroom, clearRedirect } from "../redux/actions/dataActions";
+import { getClassroom } from "../redux/actions/dataActions";
 
 // Components
 import Navigation from "../components/Navigation";
@@ -28,20 +25,20 @@ const styles = (theme) => ({
 
 class Classroom extends Component {
     componentDidMount() {
-        this.props.getClassroom(
-            this.props.match.params.classroomId,
-            this.props.history
-        );
+        this.props
+            .getClassroom(
+                this.props.match.params.classroomId,
+                this.props.history
+            )
+            .catch(() => {
+                this.props.history.push("/login");
+            });
     }
 
     // TODO: should separate assignments list to separate component
     render() {
         const { classes, classroom } = this.props;
 
-        if (this.props.redirect) {
-            this.props.clearRedirect();
-            return <Redirect to={this.props.redirect} />;
-        }
         // temp, store loading state in redux later
         return (
             <Fragment>
@@ -90,13 +87,12 @@ class Classroom extends Component {
 
 const mapStateToProps = (state) => ({
     classroom: state.data.classroom,
-    redirect: state.data.redirect,
 });
 const mapActionsToProps = {
     getClassroom,
-    clearRedirect,
 };
 
-export default withRouter(
-    connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Classroom))
-);
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withStyles(styles)(Classroom));

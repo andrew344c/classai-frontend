@@ -10,7 +10,7 @@ import { CircularProgress } from "@material-ui/core";
 
 // Redux
 import { connect } from "react-redux";
-import { getClassrooms, clearRedirect } from "../redux/actions/dataActions";
+import { getClassrooms } from "../redux/actions/dataActions";
 
 // Components
 import Navigation from "../components/Navigation";
@@ -33,55 +33,54 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.props.getClassrooms().then(() => {
-            this.setState({ loaded: true });
-        });
+        this.props
+            .getClassrooms()
+            .then(() => {
+                this.setState({ loaded: true });
+            })
+            .catch((err) => {
+                this.props.history.push("/login");
+            });
     }
 
     render() {
         const { classes } = this.props;
-        if (this.props.redirect) {
-            this.props.clearRedirect();
-            return <Redirect to={this.props.redirect} />;
-        } else {
-            return this.props.authenticated ? (
-                <Fragment>
-                    <Navigation />
-                    <div className={classes.classroomsContainer}>
-                        {this.state.loaded ? (
-                            this.props.classrooms.map((classroom) => {
-                                return (
-                                    <ClassroomSummaryCard
-                                        key={classroom.classroomId}
-                                        history={this.props.history}
-                                        classroom={classroom}
-                                    />
-                                );
-                            })
-                        ) : (
-                            <CircularProgress
-                                style={{ display: "block", margin: "0 auto" }}
-                            />
-                        )}
-                        <AddClassroomDialog />
-                    </div>
-                </Fragment>
-            ) : (
-                <Redirect to="/login" />
-            );
-        }
+
+        return this.props.authenticated ? (
+            <Fragment>
+                <Navigation />
+                <div className={classes.classroomsContainer}>
+                    {this.state.loaded ? (
+                        this.props.classrooms.map((classroom) => {
+                            return (
+                                <ClassroomSummaryCard
+                                    key={classroom.classroomId}
+                                    history={this.props.history}
+                                    classroom={classroom}
+                                />
+                            );
+                        })
+                    ) : (
+                        <CircularProgress
+                            style={{ display: "block", margin: "0 auto" }}
+                        />
+                    )}
+                    <AddClassroomDialog />
+                </div>
+            </Fragment>
+        ) : (
+            <Redirect to="/login" />
+        );
     }
 }
 
 const mapStateToProps = (state) => ({
     classrooms: state.data.classrooms,
-    redirect: state.data.redirect,
     authenticated: state.user.authenticated,
 });
 
 const mapActionToProps = {
     getClassrooms,
-    clearRedirect,
 };
 
 export default connect(

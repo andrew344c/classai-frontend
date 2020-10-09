@@ -3,8 +3,6 @@ import {
     JOINED_CLASSROOM,
     GET_CLASSROOM,
     CREATED_ASSIGNMENT,
-    REDIRECT,
-    CLEAR_REDIRECT,
     GET_SUBMISSIONS,
 } from "../types";
 
@@ -12,7 +10,6 @@ const defaultState = {
     classrooms: [],
     classroom: {},
     submissions: [],
-    redirect: false,
 };
 
 export default (state = defaultState, action) => {
@@ -47,16 +44,6 @@ export default (state = defaultState, action) => {
             return {
                 ...state,
                 submissions: action.payload.submissions,
-            };
-        case REDIRECT:
-            return {
-                ...state,
-                redirect: action.newLocation,
-            };
-        case CLEAR_REDIRECT:
-            return {
-                ...state,
-                redirect: false,
             };
         default:
             return state;
