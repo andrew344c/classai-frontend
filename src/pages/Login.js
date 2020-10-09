@@ -18,7 +18,6 @@ import Logo from "../assets/logo.png";
 import { connect } from "react-redux";
 import { login } from "../redux/actions/userActions";
 
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -31,7 +30,6 @@ function Copyright() {
         </Typography>
     );
 }
-
 
 const styles = (theme) => ({
     paper: {
@@ -81,7 +79,9 @@ class Login extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         event.persist();
-        this.props.login(this.state, this.props.history);
+        this.props.login(this.state, this.props.history).then(() => {
+            this.props.history.push("/");
+        });
     };
 
     render() {

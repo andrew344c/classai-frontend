@@ -9,8 +9,10 @@ import {
     Typography,
     CircularProgress,
     Slide,
+    Backdrop,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
+import { SportsRugbySharp } from "@material-ui/icons";
 
 const styles = (theme) => ({
     paper: {
@@ -25,8 +27,13 @@ const styles = (theme) => ({
         width: "100%",
     },
     loading: {
-        margin: "0 auto"
-    }
+        margin: "0 auto",
+    },
+    backdrop: {
+        color: "fff",
+        //backgroundColor: "rgba(255, 255, 255, 0.5)",
+        zIndex: 10,
+    },
 });
 
 class SubmissionsViewDialog extends Component {
@@ -52,9 +59,7 @@ class SubmissionsViewDialog extends Component {
         const { classes } = this.props;
 
         let content;
-        if (!this.state.gotSubmissions) {
-            content = <CircularProgress className={classes.loading}/>;
-        } else if (this.props.submissions.length === 0) {
+        if (this.props.submissions.length === 0) {
             content = <Typography>No submissions yet</Typography>;
         } else {
             content = this.props.submissions.map((submission) => {
@@ -73,16 +78,24 @@ class SubmissionsViewDialog extends Component {
                 );
             });
         }
-        return (
+
+        return this.state.gotSubmissions ? (
             <Dialog
                 fullWidth={true}
                 maxWidth={"md"}
                 open={this.props.open}
                 onClose={this.props.onClickAway}
-                contentStyle={{ minWidth: "30vw", padding: "5%" }}
+                contentStyle={{ minWidth: "30vw", padding: "5%", minHeight: "30vh" }}
             >
                 {content}
             </Dialog>
+        ) : (
+            <Backdrop
+                className={classes.backdrop}
+                open={!this.state.gotSubmissions && this.props.open}
+            >
+                <CircularProgress className={classes.loading} />
+            </Backdrop>
         );
     }
 }

@@ -9,15 +9,14 @@ import {
 import axios from "axios";
 
 export const login = (userData, history) => (dispatch) => {
-    axios
+    return axios
         .post("/users/login", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
             dispatch({
                 type: SET_AUTHENTICATED,
                 payload: { authVal: true },
-            });
-            history.push("/");
+            })
         })
         .catch((err) => {
             dispatch({
@@ -141,9 +140,12 @@ export const uploadSubmissionText = (
     classroomId,
     assignmentId
 ) => (dispatch) => {
-    return axios.post(`/classrooms/${classroomId}/submissions/${assignmentId}`, {
-        submissionText,
-    });
+    return axios.post(
+        `/classrooms/${classroomId}/submissions/${assignmentId}`,
+        {
+            submissionText,
+        }
+    );
 };
 
 const setAuthorizationHeader = (jwtoken) => {
