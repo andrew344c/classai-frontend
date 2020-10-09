@@ -28,7 +28,7 @@ const defaultState = {
     description: "",
     graded: false,
     hasDueDate: false,
-    points: "",
+    points: 0,
     dueDate: "",
     gradedError: false,
 };

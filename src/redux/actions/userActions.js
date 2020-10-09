@@ -11,11 +11,16 @@ export const login = (userData, history) => (dispatch) => {
     return axios
         .post("/users/login", userData)
         .then((res) => {
+            console.log(res.data.JWToken);
             setAuthorizationHeader(res.data.JWToken);
+            let userInfo = {
+                ...res.data,
+                authVal: true,
+            };
             dispatch({
                 type: SET_AUTHENTICATED,
-                payload: { authVal: true },
-            })
+                payload: userInfo,
+            });
         })
         .catch((err) => {
             dispatch({
@@ -30,9 +35,13 @@ export const signup = (userData, history) => (dispatch) => {
         .post("/users/signup", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
+            let userInfo = {
+                ...res.data,
+                authVal: true,
+            };
             dispatch({
                 type: SET_AUTHENTICATED,
-                payload: { authVal: true },
+                payload: userInfo,
             });
             dispatch({
                 type: CLEAR_ERRORS,

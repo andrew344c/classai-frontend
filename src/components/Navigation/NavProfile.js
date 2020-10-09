@@ -39,7 +39,7 @@ class NavProfile extends Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, username, firstName, lastName } = this.props;
 
         return (
             <Paper className={classes.paper}>
@@ -48,8 +48,8 @@ class NavProfile extends Component {
                         <Avatar src={tempImg} />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={`Andrew Chiang`}
-                        secondary={"andrew"}
+                        primary={`${firstName} ${lastName}`}
+                        secondary={username}
                     />
                 </ListItem>
                 <Divider />
@@ -78,6 +78,15 @@ class NavProfile extends Component {
     }
 }
 
-export default connect(null, { logout })(
-    withRouter(withStyles(styles)(NavProfile))
-);
+const mapStateToProps = (state) => ({
+    username: state.user.username,
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+});
+
+const mapActionToProps = { logout };
+
+export default connect(
+    mapStateToProps,
+    mapActionToProps
+)(withRouter(withStyles(styles)(NavProfile)));
