@@ -33,9 +33,12 @@ import "./App.css";
 // Axios
 import axios from "axios";
 
-
-//axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
-axios.defaults.baseURL = "https://us-central1-classai.cloudfunctions.net/api";
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+    axios.defaults.baseURL = "http://localhost:5000/classai/us-central1/api";
+} else {
+    axios.defaults.baseURL =
+        "https://us-central1-classai.cloudfunctions.net/api";
+}
 
 let token = localStorage.getItem("JWToken");
 if (token) {
@@ -58,7 +61,11 @@ class App extends Component {
                             path="/classroom/:classroomId"
                             component={Classroom}
                         />
-                        <Route exact path="/forgot" component={ForgotPassword} />
+                        <Route
+                            exact
+                            path="/forgot"
+                            component={ForgotPassword}
+                        />
                         <Route exact path="/welcome" component={BetaHome} />
                         <Route exact path="/grades" component={Grades} />
 
