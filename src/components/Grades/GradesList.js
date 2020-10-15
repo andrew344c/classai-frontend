@@ -24,7 +24,7 @@ class GradesList extends Component {
             .then((res) => {
                 this.setState((oldState) => ({
                     ...oldState,
-                    loading: true,
+                    loading: false,
                     classroomInfos: res.data.classroomInfos,
                 }));
             })
@@ -38,7 +38,7 @@ class GradesList extends Component {
                     console.error(err);
                     this.setState((oldState) => ({
                         ...oldState,
-                        loading: true,
+                        loading: false,
                         errors:
                             "An unexpected error occured, please try again later or contact us if this error persists.",
                     }));
@@ -60,9 +60,28 @@ class GradesList extends Component {
             );
         }
 
+        let grades;
+        if (classGrades.length !== 0) {
+            grades = classGrades;
+        } else if (!loading) {
+            grades = (
+                <Typography
+                    style={{
+                        textAlign: "center",
+                        paddingBottom: "1em",
+                    }}
+                    variant="h2"
+                >
+                    You are not a student in any classes yet!
+                </Typography>
+            );
+        } else {
+            grades = null;
+        }
+
         return (
             <div className="d-flex align-items-center container-grades">
-                {loading ? <LoadingBackdrop /> : null}
+                <LoadingBackdrop open={loading} />
                 <div className="row all">
                     <div className="col-lg-12 col-12 grades">
                         <div className="container-grades">
@@ -86,21 +105,7 @@ class GradesList extends Component {
                                                 className="accordion widget-part"
                                                 id="accordion-tab-1"
                                             >
-                                                {classGrades.length !== 0 ? (
-                                                    classGrades
-                                                ) : (
-                                                    <Typography
-                                                        style={{
-                                                            textAlign: "center",
-                                                            paddingBottom:
-                                                                "1em",
-                                                        }}
-                                                        variant="h2"
-                                                    >
-                                                        You are not in any
-                                                        classes yet!
-                                                    </Typography>
-                                                )}
+                                                {grades}
                                             </div>
                                         </div>
                                     </div>
