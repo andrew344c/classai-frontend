@@ -11,7 +11,6 @@ export const login = (userData, history) => (dispatch) => {
     return axios
         .post("/users/login", userData)
         .then((res) => {
-            console.log(res.data.JWToken);
             setAuthorizationHeader(res.data.JWToken);
             let userInfo = {
                 ...res.data,
@@ -137,9 +136,6 @@ export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
                 },
             }
         )
-        .then((res) => {
-            console.log(res);
-        });
 };
 
 export const uploadSubmissionText = (
@@ -147,6 +143,7 @@ export const uploadSubmissionText = (
     classroomId,
     assignmentId
 ) => (dispatch) => {
+    console.log(submissionText)
     return axios.post(
         `/classrooms/${classroomId}/submissions/${assignmentId}`,
         {

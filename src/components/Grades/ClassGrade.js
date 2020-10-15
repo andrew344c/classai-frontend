@@ -1,10 +1,11 @@
+import { Typography } from "@material-ui/core";
 import React, { Component } from "react";
 
 export default class ClassGrade extends Component {
     render() {
-        const { cardNumber } = this.props;
+        const { cardNumber, classroomInfo } = this.props;
 
-        const tabContent = `accordion-tab-1-content-${cardNumber}`
+        const tabContent = `accordion-tab-1-content-${cardNumber}`;
         return (
             <div className="card widget-part">
                 <div
@@ -19,11 +20,15 @@ export default class ClassGrade extends Component {
                         aria-controls={tabContent}
                     >
                         <div className="col-3 d-inline">
-                            <h2 className="text-center">A+</h2>
+                            <h2 className="text-center">
+                                {classroomInfo.grade
+                                    ? classroomInfo.grade
+                                    : "N/A"}
+                            </h2>
                         </div>
                         <div className="col-9">
-                            <h4>Period 1 - Biology</h4>
-                            <h6>Teacher: Mr. Smith</h6>
+                            <h4>{classroomInfo.name}</h4>
+                            <h6>Teacher: {classroomInfo.owner}</h6>
                         </div>
                     </div>
                 </div>
@@ -56,202 +61,36 @@ export default class ClassGrade extends Component {
                                             <h6>Notes</h6>
                                         </div>
                                     </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
-                                    <div className="row assignment">
-                                        <div className="col-3">
-                                            <h6>Biology HW #1</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>96/100</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Assignments</h6>
-                                        </div>
-                                        <div className="col-3">
-                                            <h6>Good Job</h6>
-                                        </div>
-                                    </div>
+                                    {classroomInfo.grade ? (
+                                        classroomInfo.grade.assignments.map(
+                                            (assignment) => {
+                                                return (
+                                                    <div className="row assignment">
+                                                        <div className="col-3">
+                                                            <h6>
+                                                                {
+                                                                    assignment.name
+                                                                }
+                                                            </h6>
+                                                        </div>
+                                                        <div className="col-3">
+                                                            <h6>{`${assignment.grade}/${assignment.total}`}</h6>
+                                                        </div>
+                                                        <div className="col-3">
+                                                            <h6>Assignments</h6>
+                                                        </div>
+                                                        <div className="col-3">
+                                                            <h6>{`${assignment.notes}`}</h6>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+                                        )
+                                    ) : (
+                                        <Typography variant="h2">
+                                            No assignments yet
+                                        </Typography>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -1,12 +1,68 @@
 import React, { Component } from "react";
-
+import { withRouter } from "react-router-dom";
 import ClassGrade from "./ClassGrade";
 import "./Grades.css";
 
-export default class GradesList extends Component {
+import axios from "axios";
+import { connect } from "react-redux";
+import LoadingBackdrop from "../LoadingBackdrop";
+import { Typography } from "@material-ui/core";
+
+class GradesList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            errors: null,
+            classroomInfos: [],
+        };
+    }
+
+    componentDidMount() {
+        axios
+            .get(`/grades`)
+            .then((res) => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    loading: true,
+                    classroomInfos: res.data.classroomInfos,
+                }));
+            })
+            .catch((err) => {
+                if (
+                    err.response &&
+                    (err.response.status === 403 || err.response.status === 401)
+                ) {
+                    this.props.history.push("/login");
+                } else {
+                    console.error(err);
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: true,
+                        errors:
+                            "An unexpected error occured, please try again later or contact us if this error persists.",
+                    }));
+                }
+            });
+    }
+
     render() {
+        const { loading, errors, classroomInfos } = this.state;
+
+        let classGrades = [];
+        for (let i = 0; i < classroomInfos.length; i++) {
+            classGrades.push(
+                <ClassGrade
+                    id={i}
+                    cardNumber={i}
+                    classroomInfo={classroomInfos[i]}
+                />
+            );
+        }
+
         return (
             <div className="d-flex align-items-center container-grades">
+                {loading ? <LoadingBackdrop /> : null}
                 <div className="row all">
                     <div className="col-lg-12 col-12 grades">
                         <div className="container-grades">
@@ -30,9 +86,21 @@ export default class GradesList extends Component {
                                                 className="accordion widget-part"
                                                 id="accordion-tab-1"
                                             >
-                                                {/* for testing */}
-                                                <ClassGrade cardNumber={1} />
-                                                <ClassGrade cardNumber={2} />
+                                                {classGrades.length !== 0 ? (
+                                                    classGrades
+                                                ) : (
+                                                    <Typography
+                                                        style={{
+                                                            textAlign: "center",
+                                                            paddingBottom:
+                                                                "1em",
+                                                        }}
+                                                        variant="h2"
+                                                    >
+                                                        You are not in any
+                                                        classes yet!
+                                                    </Typography>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -45,3 +113,9 @@ export default class GradesList extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    classroom: state.data.classroom,
+});
+
+export default withRouter(connect(mapStateToProps, null)(GradesList));

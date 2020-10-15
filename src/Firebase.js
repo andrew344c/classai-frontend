@@ -1,9 +1,10 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 // only used for forget password, db access denied compeletly for client
 const firebaseConfig = {
     apiKey: "AIzaSyC8gHgffmgfNvL_6EB678f4qYVeITqQPEw",
-    authDomain: "classai.firebaseapp.com",
+    authDomain: "nexusedu.app",
     databaseURL: "https://classai.firebaseio.com",
     projectId: "classai",
     storageBucket: "classai.appspot.com",

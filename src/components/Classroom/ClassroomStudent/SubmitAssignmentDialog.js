@@ -77,10 +77,12 @@ class SubmitAssignmentDialog extends Component {
         }));
     };
 
-    handleTextChange = (event, newValue) => {
+    handleTextChange = (event) => {
+        event.preventDefault();
+        event.persist();
         this.setState((oldState) => ({
             ...oldState,
-            textValue: newValue,
+            textValue: event.target.value,
             textError: false,
         }));
     };

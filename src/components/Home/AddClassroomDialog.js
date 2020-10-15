@@ -198,6 +198,7 @@ class AddClassroomDialog extends Component {
                                     label="Classroom Description"
                                     name="classroomDescription"
                                     onChange={this.onChange}
+                                    multiline
                                     fullWidth
                                 />
                             </DialogContent>
