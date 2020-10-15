@@ -12,6 +12,7 @@ export const login = (userData, history) => (dispatch) => {
         .post("/users/login", userData)
         .then((res) => {
             setAuthorizationHeader(res.data.JWToken);
+            setUserInfo(res.data);
             let userInfo = {
                 ...res.data,
                 authVal: true,
@@ -34,11 +35,12 @@ export const signup = (userData, history) => (dispatch) => {
     return axios
         .post("/users/signup", userData)
         .then((res) => {
-            setAuthorizationHeader(res.data.JWToken);
             let userInfo = {
                 ...res.data,
                 authVal: true,
             };
+            setAuthorizationHeader(res.data.JWToken);
+            setUserInfo(res.data);
             dispatch({
                 type: SET_AUTHENTICATED,
                 payload: userInfo,
@@ -105,11 +107,9 @@ export const createClassroom = (classroomInfo) => (dispatch) => {
 };
 
 export const deleteClassroom = (classroomId) => (dispatch) => {
-    return axios
-        .delete(`/classrooms/${classroomId}`)
-        .then((res) => {
-            alert(res.data.message);
-        })
+    return axios.delete(`/classrooms/${classroomId}`).then((res) => {
+        alert(res.data.message);
+    });
 };
 
 export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
@@ -126,16 +126,15 @@ export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {
 export const uploadSubmission = (submissionData, classroomId, assignmentId) => (
     dispatch
 ) => {
-    return axios
-        .post(
-            `/classrooms/${classroomId}/submissions/${assignmentId}`,
-            submissionData,
-            {
-                headers: {
-                    "content-type": `multipart/form-data; boundary=${submissionData._boundary}`,
-                },
-            }
-        )
+    return axios.post(
+        `/classrooms/${classroomId}/submissions/${assignmentId}`,
+        submissionData,
+        {
+            headers: {
+                "content-type": `multipart/form-data; boundary=${submissionData._boundary}`,
+            },
+        }
+    );
 };
 
 export const uploadSubmissionText = (
@@ -143,7 +142,7 @@ export const uploadSubmissionText = (
     classroomId,
     assignmentId
 ) => (dispatch) => {
-    console.log(submissionText)
+    console.log(submissionText);
     return axios.post(
         `/classrooms/${classroomId}/submissions/${assignmentId}`,
         {
@@ -156,4 +155,11 @@ const setAuthorizationHeader = (jwtoken) => {
     const JWToken = `Bearer ${jwtoken}`;
     localStorage.setItem("JWToken", JWToken);
     axios.defaults.headers.common["Authorization"] = JWToken;
+};
+
+const setUserInfo = (userInfo) => {
+    const { username, firstName, lastName } = userInfo;
+    localStorage.setItem("username", username);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("lastName", lastName);
 };

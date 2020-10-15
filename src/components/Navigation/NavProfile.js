@@ -55,7 +55,10 @@ class NavProfile extends Component {
     };
 
     render() {
-        const { classes, username, firstName, lastName } = this.props;
+        const { classes } = this.props;
+        const username = localStorage.getItem("username");
+        const firstName = localStorage.getItem("firstName");
+        const lastName = localStorage.getItem("lastName");
 
         return (
             <Paper className={classes.paper}>
@@ -70,22 +73,21 @@ class NavProfile extends Component {
                 </ListItem>
                 <Divider />
                 <Link
-                        to="/Settings"
-                        style={{
-                            textDecoration: "none",
-                            display: "inline",
-                            alignItems: "center",
-                        }}
-                    >
-                <Button
+                    to="/Settings"
+                    style={{
+                        textDecoration: "none",
+                        display: "inline",
+                        alignItems: "center",
+                    }}
                 >
-                    <ListItem>
-                        <ListItemIcon>
-                            <SettingsIcon />
-                        </ListItemIcon>
-                        <Typography>Settings</Typography>
-                    </ListItem>
-                </Button>
+                    <Button>
+                        <ListItem>
+                            <ListItemIcon>
+                                <SettingsIcon />
+                            </ListItemIcon>
+                            <Typography>Settings</Typography>
+                        </ListItem>
+                    </Button>
                 </Link>
                 <Button onClick={this.onLogout}>
                     <ListItem>
