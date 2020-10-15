@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/userActions";
 
+import { Link } from "react-router-dom";
+
 import {
     Avatar,
     Paper,
@@ -67,10 +69,15 @@ class NavProfile extends Component {
                     />
                 </ListItem>
                 <Divider />
+                <Link
+                        to="/Settings"
+                        style={{
+                            textDecoration: "none",
+                            display: "inline",
+                            alignItems: "center",
+                        }}
+                    >
                 <Button
-                    onClick={() => {
-                        alert("Settings page currently under progress");
-                    }}
                 >
                     <ListItem>
                         <ListItemIcon>
@@ -79,6 +86,7 @@ class NavProfile extends Component {
                         <Typography>Settings</Typography>
                     </ListItem>
                 </Button>
+                </Link>
                 <Button onClick={this.onLogout}>
                     <ListItem>
                         <ListItemIcon>
