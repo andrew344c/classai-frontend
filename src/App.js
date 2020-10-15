@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import Classroom from "./pages/Classroom";
 import ForgotPassword from "./pages/ForgotPassword";
 import Grades from "./pages/Grades";
+import Settings from "./pages/Settings";
 
 // Redux
 import { Provider } from "react-redux";
@@ -66,6 +67,7 @@ class App extends Component {
                             component={ForgotPassword}
                         />
                         <Route exact path="/grades" component={Grades} />
+                        <Route exact path="/settings" component={Settings} />
 
                         <Redirect from="*" to="/" />
                     </Switch>
