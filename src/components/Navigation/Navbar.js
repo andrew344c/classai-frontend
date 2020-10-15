@@ -26,6 +26,7 @@ import { logout } from "../../redux/actions/userActions";
 import Logo from "../../assets/logo.png";
 import tempImg from "../../assets/default-user-300x300.png";
 import NavProfile from "./NavProfile";
+import ClassNavDrawer from "./ClassNavDrawer";
 
 const styles = (theme) => ({
     appBar: {
@@ -51,6 +52,7 @@ class Navbar extends Component {
         super();
         this.state = {
             profileAnchor: null,
+            drawerOpen: false,
         };
     }
 
@@ -68,23 +70,38 @@ class Navbar extends Component {
         this.setState({ profileAnchor: null });
     };
 
+    toggleDrawer = () => {
+        this.setState((oldState) => ({
+            ...oldState,
+            drawerOpen: !oldState.drawerOpen,
+        }));
+    };
+
     render() {
         const { classes } = this.props;
 
         return (
             <AppBar position="static" className={classes.appBar}>
+                <ClassNavDrawer
+                    open={this.state.drawerOpen}
+                    toggleDrawer={this.toggleDrawer}
+                />
                 <Toolbar>
+                    <IconButton onClick={this.toggleDrawer}>
+                        <MenuIcon style={{ color: "white" }} />
+                    </IconButton>
                     <Link
                         to="/"
                         style={{
                             textDecoration: "none",
                             display: "flex",
                             alignItems: "center",
+                            marginLeft: "1em",
                         }}
                     >
                         <img
                             src={Logo}
-                            style={{ maxHeight: "3em" }}
+                            style={{ maxHeight: "2.5em" }}
                             alt="Nexus Logo"
                         />
                         <Typography className={classes.title} variant="h6">
@@ -123,16 +140,4 @@ class Navbar extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    authenticated: state.user.authenticated,
-});
-
-const mapActionsToProps = {
-    toggleDrawer,
-    logout,
-};
-
-export default connect(
-    mapStateToProps,
-    mapActionsToProps
-)(withStyles(styles)(Navbar));
+export default withStyles(styles)(Navbar);
