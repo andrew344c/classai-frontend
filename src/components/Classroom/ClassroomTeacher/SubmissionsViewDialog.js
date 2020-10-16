@@ -93,7 +93,11 @@ class SubmissionsViewDialog extends Component {
                             </div>
                         )}
 
-                        <Typography>{`Text Derived From OCR: ${submission.text}`}</Typography>
+                        {submission.type === "file" ? (
+                            <Typography>
+                                `Text Derived From OCR: ${submission.ocrText}`
+                            </Typography>
+                        ) : null}
                         <Typography>{`Similar Websites to Submission: ${submission.plagarismLinks}`}</Typography>
                     </Paper>
                 );
