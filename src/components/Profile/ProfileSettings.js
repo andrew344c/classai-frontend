@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import "./Settings.css";
 
@@ -6,12 +7,8 @@ import tempImg from "../../assets/default-user-300x300.png";
 
 import {
     Avatar,
-    Paper,
     ListItem,
-    ListItemAvatar,
     ListItemText,
-    Divider,
-    ListItemIcon,
     Typography,
     Button,
     TextField,
@@ -19,22 +16,28 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
     List,
     ListSubheader,
     DialogActions,
+    Snackbar,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import LoadingBackdrop from "../LoadingBackdrop";
 
 const propertyMapToName = {
     lastName: "Last Name",
     firstName: "First Name",
+    description: "description",
 };
 const initialState = {
     firstName: localStorage.getItem("firstName"),
     lastName: localStorage.getItem("lastName"),
-    description: "",
+    description: localStorage.getItem("description"),
     changes: [],
     dialogOpen: false,
+    loading: false,
+    errors: null,
+    success: false,
 };
 
 export default class ProfileSettings extends Component {
@@ -54,21 +57,56 @@ export default class ProfileSettings extends Component {
     };
 
     onSubmit = () => {
+        this.onErrorClose();
         let changes = [];
         for (const property in this.state) {
             if (
                 property !== "changes" &&
                 this.state[property] !== initialState[property]
             ) {
-                changes.push(
-                    `Your ${propertyMapToName[property]} will be changed from ${initialState[property]} to ${this.state[property]}.`
-                );
+                changes.push(property);
             }
         }
+        if (changes.length !== 0) {
+            this.setState((oldState) => ({
+                ...oldState,
+                changes,
+                dialogOpen: true,
+            }));
+        } else {
+            this.setState((oldState) => ({
+                ...oldState,
+                errors: "There are no changes",
+            }));
+        }
+    };
+
+    confirmSubmit = () => {
+        axios
+            .post("/users/profile", this.state)
+            .then((res) => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    errors: null,
+                    loading: false,
+                    success: true,
+                }));
+                this.state.changes.forEach((property) => {
+                    localStorage.setItem(property, this.state[property]);
+                });
+            })
+            .catch((err) => {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    loading: false,
+                    errors:
+                        "An unexpected error occurred. Please try again later or contact us if this issue persists.",
+                }));
+            });
         this.setState((oldState) => ({
             ...oldState,
-            changes,
-            dialogOpen: true,
+            loading: true,
+            dialogOpen: false,
         }));
     };
 
@@ -79,6 +117,24 @@ export default class ProfileSettings extends Component {
         }));
     };
 
+    onErrorClose = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                errors: null,
+            }));
+        }
+    };
+
+    onSuccessClose = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                success: false,
+            }));
+        }
+    };
+
     render() {
         const username = localStorage.getItem("username");
         const firstName = localStorage.getItem("firstName");
@@ -86,6 +142,25 @@ export default class ProfileSettings extends Component {
 
         return (
             <div>
+                <LoadingBackdrop open={this.state.loading} />
+                <Snackbar
+                    open={this.state.errors !== null}
+                    autoHideDuration={10000}
+                    onClose={this.onErrorClose}
+                >
+                    <Alert severity="error" onClose={this.onErrorClose}>
+                        {this.state.errors}
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={this.state.success}
+                    autoHideDuration={10000}
+                    onClose={this.onSuccessClose}
+                >
+                    <Alert severity="success" onClose={this.onSuccessClose}>
+                        Success in Changing Profile Information
+                    </Alert>
+                </Snackbar>
                 <Dialog open={this.state.dialogOpen} onClose={this.closeDialog}>
                     <DialogTitle style={{ paddingBottom: 0 }}>
                         Confirm Changes
@@ -94,7 +169,7 @@ export default class ProfileSettings extends Component {
                         <List
                             subheader={<ListSubheader>Changes</ListSubheader>}
                         >
-                            {this.state.changes.map((change) => {
+                            {this.state.changes.map((property) => {
                                 return (
                                     <ListItem
                                         style={{
@@ -103,7 +178,7 @@ export default class ProfileSettings extends Component {
                                             padding: "0 auto",
                                         }}
                                     >
-                                        <Typography>{change}</Typography>
+                                        <Typography>{`Your ${propertyMapToName[property]} will be changed from "${initialState[property]}" to "${this.state[property]}".`}</Typography>
                                     </ListItem>
                                 );
                             })}
@@ -114,7 +189,7 @@ export default class ProfileSettings extends Component {
                             Cancel
                         </Button>
                         <Button
-                            onClick={this.closeDialog}
+                            onClick={this.confirmSubmit}
                             color="primary"
                             autoFocus
                         >

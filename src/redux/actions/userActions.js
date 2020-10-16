@@ -158,8 +158,9 @@ const setAuthorizationHeader = (jwtoken) => {
 };
 
 const setUserInfo = (userInfo) => {
-    const { username, firstName, lastName } = userInfo;
+    const { username, firstName, lastName, description } = userInfo;
     localStorage.setItem("username", username);
     localStorage.setItem("firstName", firstName);
     localStorage.setItem("lastName", lastName);
+    localStorage.setItem("description", description);
 };
