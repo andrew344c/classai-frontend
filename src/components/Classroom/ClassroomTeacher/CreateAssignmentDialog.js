@@ -14,6 +14,7 @@ import {
     Typography,
     FormControlLabel,
     Switch,
+    Snackbar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -21,6 +22,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { connect } from "react-redux";
 import { createAssignment } from "../../../redux/actions/userActions";
 import LoadingBackdrop from "../../LoadingBackdrop";
+import { Alert } from "@material-ui/lab";
 
 const defaultState = {
     open: false,
@@ -32,8 +34,9 @@ const defaultState = {
     dueDateMUI: "",
     gradedError: false,
     creatingAssignment: false,
-    serverError: false,
+    submitErrors: false,
     dueDate: null,
+    success: false,
 };
 
 class CreateAssignmentDialog extends Component {
@@ -93,20 +96,53 @@ class CreateAssignmentDialog extends Component {
     };
 
     onSubmit = () => {
-        this.setState((oldState) => ({
-            ...oldState,
-            creatingAssignment: true,
-        }));
-        this.props
-            .createAssignment(this.state, this.props.classroomId)
-            .catch(() => {
-                this.setState((oldState) => ({
-                    ...oldState,
-                    creatingAssignment: false,
-                    serverError: true,
-                }));
-            });
-        this.setState(defaultState);
+        if (this.state.name === "") {
+            this.setState((oldState) => ({
+                ...oldState,
+                submitErrors: "The assignment name cannot be empty",
+            }));
+        } else if (this.state.gradedError) {
+            this.setState((oldState) => ({
+                ...oldState,
+                submitErrors: "Only positive point totals are allowed",
+            }));
+        } else {
+            this.setState((oldState) => ({
+                ...oldState,
+                creatingAssignment: true,
+            }));
+            this.props
+                .createAssignment(this.state, this.props.classroomId)
+                .then(() => {
+                    this.setState({ ...defaultState, success: true });
+                })
+                .catch(() => {
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        creatingAssignment: false,
+                        submitErrors:
+                            "An unexpected error occurred. Please try again later or contact us if this error persists",
+                    }));
+                });
+        }
+    };
+
+    onCloseError = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                submitErrors: false,
+            }));
+        }
+    };
+
+    onCloseSuccess = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                success: false,
+            }));
+        }
     };
 
     render() {
@@ -114,13 +150,33 @@ class CreateAssignmentDialog extends Component {
 
         return (
             <div>
+                <Snackbar
+                    open={this.state.submitErrors}
+                    autoHideDuration={10000}
+                    onClose={this.onCloseError}
+                >
+                    <Alert severity="error" onClose={this.onCloseError}>
+                        {this.state.submitErrors}
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={this.state.success}
+                    autoHideDuration={10000}
+                    onClose={this.onCloseSuccess}
+                >
+                    <Alert severity="success" onClose={this.onCloseSuccess}>
+                        Successfully created a new assignment
+                    </Alert>
+                </Snackbar>
                 <Button
                     variant="outlined"
                     color="primary"
                     onClick={this.onClick}
                 >
-                    <AddIcon />
-                    <Typography>Create an assignment</Typography>
+                    <AddIcon style={{ paddingBottom: "2px" }} />
+                    <Typography style={{ marginLeft: "5px" }}>
+                        Create an assignment
+                    </Typography>
                 </Button>
                 <Dialog
                     open={this.state.open}
