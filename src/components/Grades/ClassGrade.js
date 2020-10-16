@@ -21,8 +21,8 @@ export default class ClassGrade extends Component {
                     >
                         <div className="col-3 d-inline">
                             <h2 className="text-center">
-                                {classroomInfo.grade
-                                    ? classroomInfo.grade
+                                {classroomInfo.totalGrade !== undefined
+                                    ? `${classroomInfo.totalGrade.toFixed(1)}%`
                                     : "N/A"}
                             </h2>
                         </div>
@@ -61,8 +61,8 @@ export default class ClassGrade extends Component {
                                             <h6>Notes</h6>
                                         </div>
                                     </div>
-                                    {classroomInfo.grade ? (
-                                        classroomInfo.grade.assignments.map(
+                                    {classroomInfo.assignments.length !== 0 ? (
+                                        classroomInfo.assignments.map(
                                             (assignment) => {
                                                 return (
                                                     <div className="row assignment">
@@ -74,13 +74,17 @@ export default class ClassGrade extends Component {
                                                             </h6>
                                                         </div>
                                                         <div className="col-3">
-                                                            <h6>{`${assignment.grade}/${assignment.total}`}</h6>
+                                                            <h6>{`${assignment.pointsEarned}/${assignment.totalPoints}`}</h6>
                                                         </div>
                                                         <div className="col-3">
                                                             <h6>Assignments</h6>
                                                         </div>
                                                         <div className="col-3">
-                                                            <h6>{`${assignment.notes}`}</h6>
+                                                            <h6>
+                                                                {
+                                                                    assignment.notes
+                                                                }
+                                                            </h6>
                                                         </div>
                                                     </div>
                                                 );

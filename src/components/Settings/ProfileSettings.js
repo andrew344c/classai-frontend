@@ -16,16 +16,31 @@ import {
     Button,
     TextField,
     IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    List,
+    ListSubheader,
+    DialogActions,
 } from "@material-ui/core";
+
+const propertyMapToName = {
+    lastName: "Last Name",
+    firstName: "First Name",
+};
+const initialState = {
+    firstName: localStorage.getItem("firstName"),
+    lastName: localStorage.getItem("lastName"),
+    description: "",
+    changes: [],
+    dialogOpen: false,
+};
 
 export default class ProfileSettings extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            firstName: "",
-            lastName: "",
-            description: "",
-        };
+        this.state = initialState;
     }
 
     onChange = (event) => {
@@ -39,7 +54,29 @@ export default class ProfileSettings extends Component {
     };
 
     onSubmit = () => {
-        console.log(this.state);
+        let changes = [];
+        for (const property in this.state) {
+            if (
+                property !== "changes" &&
+                this.state[property] !== initialState[property]
+            ) {
+                changes.push(
+                    `Your ${propertyMapToName[property]} will be changed from ${initialState[property]} to ${this.state[property]}.`
+                );
+            }
+        }
+        this.setState((oldState) => ({
+            ...oldState,
+            changes,
+            dialogOpen: true,
+        }));
+    };
+
+    closeDialog = () => {
+        this.setState((oldState) => ({
+            ...oldState,
+            dialogOpen: false,
+        }));
     };
 
     render() {
@@ -49,6 +86,42 @@ export default class ProfileSettings extends Component {
 
         return (
             <div>
+                <Dialog open={this.state.dialogOpen} onClose={this.closeDialog}>
+                    <DialogTitle style={{ paddingBottom: 0 }}>
+                        Confirm Changes
+                    </DialogTitle>
+                    <DialogContent>
+                        <List
+                            subheader={<ListSubheader>Changes</ListSubheader>}
+                        >
+                            {this.state.changes.map((change) => {
+                                return (
+                                    <ListItem
+                                        style={{
+                                            border: "1px",
+                                            borderColor: "black",
+                                            padding: "0 auto",
+                                        }}
+                                    >
+                                        <Typography>{change}</Typography>
+                                    </ListItem>
+                                );
+                            })}
+                        </List>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeDialog} color="primary">
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={this.closeDialog}
+                            color="primary"
+                            autoFocus
+                        >
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <div class="row settings">
                     <div class="col-lg-4 col-12" style={{ marginTop: "20px" }}>
                         <h2>Profile Picture</h2>
@@ -90,6 +163,7 @@ export default class ProfileSettings extends Component {
                                     label="First Name"
                                     name="firstName"
                                     onChange={this.onChange}
+                                    value={this.state.firstName}
                                 />
                             </div>
                             <div class="col-6">
@@ -101,12 +175,13 @@ export default class ProfileSettings extends Component {
                                     label="Last Name"
                                     name="lastName"
                                     onChange={this.onChange}
+                                    value={this.state.lastName}
                                 />
                             </div>
                         </div>
                     </div>
                     <div class="col-12" style={{ marginTop: "50px" }}>
-                        <h2>Description</h2>
+                        <h2>Edit Description</h2>
                         <TextField
                             id="standard-multiline-flexible"
                             multiline
