@@ -10,6 +10,7 @@ import {
     DialogContentText,
     TextField,
     DialogActions,
+    Snackbar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -20,6 +21,7 @@ import {
     createClassroom,
 } from "../../redux/actions/userActions";
 import LoadingBackdrop from "../LoadingBackdrop";
+import { Alert } from "@material-ui/lab";
 
 class AddClassroomDialog extends Component {
     constructor() {
@@ -31,6 +33,8 @@ class AddClassroomDialog extends Component {
             open: false,
             joiningClassroom: true,
             loading: false,
+            errors: false,
+            success: false,
         };
     }
 
@@ -72,26 +76,34 @@ class AddClassroomDialog extends Component {
     };
 
     onSubmit = () => {
-        this.onClickAway();
-        this.setState((oldState) => ({
-            ...oldState,
-            loading: true,
-        }));
-
-        let removeLoading = (oldState) => ({
-            ...oldState,
-            loading: false,
-        });
-
+        if (
+            this.state.classroomName === "" ||
+            this.state.classroomDescription === ""
+        ) {
+            this.setState((oldState) => ({
+                ...oldState,
+                errors: "The classroom name and description cannot be blank",
+            }));
+            return;
+        }
         if (this.state.joiningClassroom) {
             this.props
                 .joinClassroom(this.state.classroomId)
                 .then(() => {
-                    this.setState(removeLoading);
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors: false,
+                        success: "Successfully joined classroom",
+                    }));
+                    this.onClickAway();
                 })
                 .catch(() => {
-                    alert("Something went wrong, please try again later.");
-                    this.setState(removeLoading);
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors: "Classroom not found",
+                    }));
                 });
         } else {
             this.props
@@ -102,18 +114,69 @@ class AddClassroomDialog extends Component {
                     students: [],
                 })
                 .then(() => {
-                    this.setState(removeLoading);
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors: false,
+                        success: "Successfully created classroom",
+                    }));
+                    this.onClickAway();
                 })
                 .catch(() => {
-                    alert("Something went wrong, please try again later.");
-                    this.setState(removeLoading);
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors:
+                            "Something went wrong while creating the classroom, please try again.",
+                    }));
                 });
+        }
+
+        this.setState((oldState) => ({
+            ...oldState,
+            loading: true,
+        }));
+    };
+
+    onCloseError = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                errors: false,
+            }));
+        }
+    };
+
+    onCloseSuccess = (event, reason) => {
+        if (reason !== "clickaway") {
+            this.setState((oldState) => ({
+                ...oldState,
+                success: false,
+            }));
         }
     };
 
     render() {
         return (
             <div>
+                <Snackbar
+                    open={this.state.errors}
+                    autoHideDuration={10000}
+                    onClose={this.onCloseError}
+                >
+                    <Alert severity="error" onClose={this.onCloseError}>
+                        {this.state.errors}
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={this.state.success}
+                    autoHideDuration={10000}
+                    onClose={this.onCloseSuccess}
+                >
+                    <Alert severity="success" onClose={this.onCloseSuccess}>
+                        {this.state.success}
+                    </Alert>
+                </Snackbar>
                 <Button
                     variant="outlined"
                     color="primary"
