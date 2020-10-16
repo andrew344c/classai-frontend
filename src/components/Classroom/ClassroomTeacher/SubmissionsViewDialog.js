@@ -62,12 +62,37 @@ class SubmissionsViewDialog extends Component {
                 return (
                     <Paper className={classes.paper}>
                         <Typography variant="h4">{`${submission.creator.firstName} ${submission.creator.lastName}`}</Typography>
-                        <img
-                            src={submission.downloadUrl}
-                            key={submission.id}
-                            className={classes.img}
-                            alt="submission"
-                        />
+                        <hr />
+                        {submission.type === "file" ? (
+                            <img
+                                src={submission.downloadUrl}
+                                key={submission.id}
+                                className={classes.img}
+                                alt="submission"
+                            />
+                        ) : (
+                            <div
+                                style={{
+                                    marginTop: "2em",
+                                    marginBottom: "2em",
+                                }}
+                            >
+                                <Typography variant="h5">
+                                    Submission (Text):
+                                </Typography>
+                                <div
+                                    style={{
+                                        border: "1px solid black",
+                                        marginTop: "0.5em",
+                                        marginBottom: "0.5em",
+                                        padding: "0.7em",
+                                    }}
+                                >
+                                    <Typography>{submission.text}</Typography>
+                                </div>
+                            </div>
+                        )}
+
                         <Typography>{`Text Derived From OCR: ${submission.text}`}</Typography>
                         <Typography>{`Similar Websites to Submission: ${submission.plagarismLinks}`}</Typography>
                     </Paper>
@@ -83,7 +108,7 @@ class SubmissionsViewDialog extends Component {
                 onClose={this.props.onClickAway}
                 contentStyle={{
                     minWidth: "30vw",
-                    padding: "5%",
+                    padding: "5em",
                     minHeight: "30vh",
                 }}
             >

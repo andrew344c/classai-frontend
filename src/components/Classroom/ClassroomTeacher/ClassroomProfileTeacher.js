@@ -87,7 +87,7 @@ class ClassroomProfile extends Component {
                         <CalendarToday color="primary" />{" "}
                         <span>
                             Created{" " /** Used for space between */}
-                            {dayjs(createdAt).format("MMM YYYY")}
+                            {dayjs(createdAt).format("MMMM YYYY")}
                         </span>
                     </div>
                     <div style={{ textAlign: "center", paddingTop: "2em" }}>
