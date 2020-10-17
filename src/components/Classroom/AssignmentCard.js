@@ -61,6 +61,7 @@ class AssignmentCard extends Component {
                         </Typography>
                     </CardContent>
 
+                    
                     <UserListItem
                         username={assignment.creator.username}
                         firstName={assignment.creator.firstName}

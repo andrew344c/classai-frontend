@@ -76,16 +76,6 @@ class AddClassroomDialog extends Component {
     };
 
     onSubmit = () => {
-        if (
-            this.state.classroomName === "" ||
-            this.state.classroomDescription === ""
-        ) {
-            this.setState((oldState) => ({
-                ...oldState,
-                errors: "The classroom name and description cannot be blank",
-            }));
-            return;
-        }
         if (this.state.joiningClassroom) {
             this.props
                 .joinClassroom(this.state.classroomId)
@@ -96,7 +86,6 @@ class AddClassroomDialog extends Component {
                         errors: false,
                         success: "Successfully joined classroom",
                     }));
-                    this.onClickAway();
                 })
                 .catch(() => {
                     this.setState((oldState) => ({
@@ -106,6 +95,17 @@ class AddClassroomDialog extends Component {
                     }));
                 });
         } else {
+            if (
+                this.state.classroomName === "" ||
+                this.state.classroomDescription === ""
+            ) {
+                this.setState((oldState) => ({
+                    ...oldState,
+                    errors:
+                        "The classroom name and description cannot be blank",
+                }));
+                return;
+            }
             this.props
                 .createClassroom({
                     name: this.state.classroomName,
