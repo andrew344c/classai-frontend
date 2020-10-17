@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 import "./Settings.css";
@@ -41,7 +42,7 @@ const initialState = {
     success: false,
 };
 
-export default class ProfileSettings extends Component {
+class ProfileSettings extends Component {
     constructor(props) {
         super(props);
         this.state = initialState;
@@ -280,8 +281,21 @@ export default class ProfileSettings extends Component {
                             Submit Changes
                         </button>
                     </div>
+                    <div class="col-12">
+                        <button
+                            class="btn btn-primary btn-block"
+                            style={{ marginTop: "30px" }}
+                            onClick={() => {
+                                this.props.history.push(`/profile/${username}`);
+                            }}
+                        >
+                            View Profile
+                        </button>
+                    </div>
                 </div>
             </div>
         );
     }
 }
+
+export default withRouter(ProfileSettings);
