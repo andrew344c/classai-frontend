@@ -2,7 +2,12 @@ import React, { Component } from "react";
 
 // Material UI
 import Card from "@material-ui/core/Card";
-import { CardContent, ListItemText, CardMedia } from "@material-ui/core";
+import {
+    CardContent,
+    ListItemText,
+    CardMedia,
+    Container,
+} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -13,6 +18,7 @@ import { withStyles } from "@material-ui/core/styles";
 // Temporary Images, will add feature to receive images from db later
 import tempImg from "../../assets/default-user-300x300.png";
 import tempBackground from "../../assets/cool-background.svg";
+import UserListItem from "../UserListItem";
 
 const styles = (theme) => ({
     card: {
@@ -25,15 +31,16 @@ const styles = (theme) => ({
 });
 
 class ClassroomSummaryCard extends Component {
-    onCardClick = () => {
-        this.props.history.push(
-            `classroom/${this.props.classroom.classroomId}`
-        );
+    onCardClick = (event) => {
+        if (event.target.getAttribute("name") !== "userListItem") {
+            this.props.history.push(
+                `classroom/${this.props.classroom.classroomId}`
+            );
+        }
     };
 
     render() {
         const { classes, classroom } = this.props;
-
         return (
             <Card
                 key={classroom.classroomId}
@@ -44,22 +51,18 @@ class ClassroomSummaryCard extends Component {
                     <Typography variant="h4">{classroom.name}</Typography>
                     <Typography>{classroom.description}</Typography>
                     <hr />
-                    <Typography variant="h6">Teachers </Typography>
+                    <Typography variant="h6">Teachers</Typography>
                     <List>
                         {classroom.teachers.map((teacher) => {
                             return (
-                                <ListItem
+                                <UserListItem
                                     key={teacher.username}
-                                    alignItems="flex-start"
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar src={tempImg} />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={`${teacher.firstName} ${teacher.lastName}`}
-                                        secondary={teacher.username}
-                                    />
-                                </ListItem>
+                                    username={teacher.username}
+                                    firstName={teacher.firstName}
+                                    lastName={teacher.lastName}
+                                    imgSrc={tempImg}
+                                    name="teacher"
+                                />
                             );
                         })}
                     </List>

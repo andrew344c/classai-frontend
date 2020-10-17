@@ -15,6 +15,7 @@ import { withStyles } from "@material-ui/core/styles";
 import tempImg from "../../assets/default-user-300x300.png";
 import SubmitAssignmentDialog from "./ClassroomStudent/SubmitAssignmentDialog";
 import SubmissionsViewDialog from "./ClassroomTeacher/SubmissionsViewDialog";
+import UserListItem from "../UserListItem";
 
 const styles = (theme) => ({
     card: {
@@ -31,11 +32,13 @@ class AssignmentCard extends Component {
         };
     }
 
-    onClick = () => {
-        this.setState((oldState) => ({
-            ...oldState,
-            dialogOpen: true,
-        }));
+    onClick = (event) => {
+        if (event.target.getAttribute("name") !== "userListItem") {
+            this.setState((oldState) => ({
+                ...oldState,
+                dialogOpen: true,
+            }));
+        }
     };
 
     onClickAway = () => {
@@ -58,15 +61,12 @@ class AssignmentCard extends Component {
                         </Typography>
                     </CardContent>
 
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar src={tempImg} />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={`${assignment.creator.firstName} ${assignment.creator.lastName}`}
-                            secondary={assignment.creator.username}
-                        />
-                    </ListItem>
+                    <UserListItem
+                        username={assignment.creator.username}
+                        firstName={assignment.creator.firstName}
+                        lastName={assignment.creator.lastName}
+                        imgSrc={tempImg}
+                    />
                 </Card>
                 {classroom.isTeacher ? (
                     <SubmissionsViewDialog

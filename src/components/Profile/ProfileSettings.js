@@ -32,6 +32,7 @@ const propertyMapToName = {
 const initialState = {
     firstName: localStorage.getItem("firstName"),
     lastName: localStorage.getItem("lastName"),
+    username: localStorage.getItem("username"),
     description: localStorage.getItem("description"),
     changes: [],
     dialogOpen: false,
@@ -136,9 +137,7 @@ export default class ProfileSettings extends Component {
     };
 
     render() {
-        const username = localStorage.getItem("username");
-        const firstName = localStorage.getItem("firstName");
-        const lastName = localStorage.getItem("lastName");
+        const { username, firstName, lastName, description } = this.state;
 
         return (
             <div>
@@ -263,7 +262,7 @@ export default class ProfileSettings extends Component {
                             rows={10}
                             name="description"
                             onChange={this.onChange}
-                            value={this.state.description}
+                            value={description}
                             fullWidth
                             style={{
                                 border: "1px solid #d8d8d8",

@@ -12,6 +12,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 import tempImg from "../../assets/default-user-300x300.png";
+import UserListItem from "../UserListItem";
 
 const styles = (theme) => ({
     paper: {
@@ -28,30 +29,26 @@ class MemberList extends Component {
                 <Typography variant="h6">Teachers</Typography>
                 <List>
                     {teachers.map((teacher) => (
-                        <ListItem key={teacher.username}>
-                            <ListItemAvatar>
-                                <Avatar src={tempImg} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={`${teacher.firstName} ${teacher.lastName}`}
-                                secondary={teacher.username}
-                            />
-                        </ListItem>
+                        <UserListItem
+                            key={teacher.username}
+                            firstName={teacher.firstName}
+                            lastName={teacher.lastName}
+                            username={teacher.username}
+                            imgSrc={tempImg}
+                        />
                     ))}
                 </List>
                 <hr />
                 <Typography variant="h6">Students</Typography>
                 <List>
                     {students.map((student) => (
-                        <ListItem key={student.username}>
-                            <ListItemAvatar>
-                                <Avatar src={tempImg} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={`${student.firstName} ${student.lastName}`}
-                                secondary={student.username}
-                            />
-                        </ListItem>
+                        <UserListItem
+                            key={student.username}
+                            firstName={student.firstName}
+                            lastName={student.lastName}
+                            username={student.username}
+                            imgSrc={tempImg}
+                        />
                     ))}
                 </List>
             </Paper>
