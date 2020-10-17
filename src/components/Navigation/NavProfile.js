@@ -19,7 +19,7 @@ import {
     Button,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import SettingsIcon from "@material-ui/icons/Settings";
+import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import tempImg from "../../assets/default-user-300x300.png";
@@ -73,7 +73,7 @@ class NavProfile extends Component {
                 </ListItem>
                 <Divider />
                 <Link
-                    to="/Settings"
+                    to={`/profile/${username}`}
                     style={{
                         textDecoration: "none",
                         display: "inline",
@@ -83,9 +83,9 @@ class NavProfile extends Component {
                     <Button>
                         <ListItem>
                             <ListItemIcon>
-                                <SettingsIcon />
+                                <PersonIcon />
                             </ListItemIcon>
-                            <Typography>Settings</Typography>
+                            <Typography>Profile</Typography>
                         </ListItem>
                     </Button>
                 </Link>
