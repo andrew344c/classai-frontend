@@ -81,7 +81,13 @@ class Navbar extends Component {
         const { classes } = this.props;
 
         return (
-            <AppBar position="static" className={classes.appBar}>
+            <AppBar
+                position="static"
+                style={{
+                    backgroundColor: "#001f3f",
+                    marginBottom: this.props.nomargin ? 0 : "4em",
+                }}
+            >
                 <ClassNavDrawer
                     open={this.state.drawerOpen}
                     toggleDrawer={this.toggleDrawer}

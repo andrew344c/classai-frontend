@@ -14,11 +14,12 @@ class UserListItem extends Component {
     };
 
     render() {
+        const isButton = this.props.nobutton === undefined;
         return (
             <ListItem
-                button
+                button={isButton}
                 key={this.props.key}
-                onClick={this.onClick}
+                onClick={isButton ? this.onClick : null}
                 name="userListItem"
             >
                 <ListItemAvatar name="userListItem">

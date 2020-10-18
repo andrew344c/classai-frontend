@@ -39,6 +39,7 @@ class SubmissionsViewDialog extends Component {
             gotSubmissions: false,
         };
     }
+    
     componentDidUpdate(prevProps) {
         if (!prevProps.open && this.props.open) {
             this.props

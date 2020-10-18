@@ -22,7 +22,7 @@ export default class ClassGrade extends Component {
                         <div className="col-3 d-inline">
                             <h2 className="text-center">
                                 {classroomInfo.totalGrade !== undefined
-                                    ? `${classroomInfo.totalGrade.toFixed(1)}%`
+                                    ? `${(classroomInfo.totalGrade * 100).toFixed(1)}%`
                                     : "N/A"}
                             </h2>
                         </div>
@@ -69,7 +69,7 @@ export default class ClassGrade extends Component {
                                                         <div className="col-3">
                                                             <h6>
                                                                 {
-                                                                    assignment.name
+                                                                    assignment.assignmentName
                                                                 }
                                                             </h6>
                                                         </div>

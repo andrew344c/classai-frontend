@@ -17,6 +17,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Classroom from "./pages/Classroom";
+import AssignmentDashboard from "./pages/AssignmentDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import Grades from "./pages/Grades";
 import Settings from "./pages/Settings";
@@ -52,7 +53,6 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                    {/**<Router history={history}> this keeps needing a refresh every redirect idk why */}
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/login" component={Login} />
@@ -61,6 +61,11 @@ class App extends Component {
                             exact
                             path="/classroom/:classroomId"
                             component={Classroom}
+                        />
+                        <Route
+                            exact
+                            path="/classroom/:classroomId/assignment/:assignmentId"
+                            component={AssignmentDashboard}
                         />
                         <Route
                             exact

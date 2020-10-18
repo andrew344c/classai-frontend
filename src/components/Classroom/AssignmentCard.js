@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import {
     Card,
@@ -33,7 +34,11 @@ class AssignmentCard extends Component {
     }
 
     onClick = (event) => {
-        if (event.target.getAttribute("name") !== "userListItem") {
+        if (this.props.classroom.isTeacher) {
+            this.props.history.push(
+                `/classroom/${this.props.classroom.id}/assignment/${this.props.assignment.id}`
+            );
+        } else if (event.target.getAttribute("name") !== "userListItem") {
             this.setState((oldState) => ({
                 ...oldState,
                 dialogOpen: true,
@@ -61,7 +66,6 @@ class AssignmentCard extends Component {
                         </Typography>
                     </CardContent>
 
-                    
                     <UserListItem
                         username={assignment.creator.username}
                         firstName={assignment.creator.firstName}
@@ -69,14 +73,7 @@ class AssignmentCard extends Component {
                         imgSrc={tempImg}
                     />
                 </Card>
-                {classroom.isTeacher ? (
-                    <SubmissionsViewDialog
-                        className="submitDialog"
-                        open={this.state.dialogOpen}
-                        onClickAway={this.onClickAway}
-                        assignmentId={assignment.id}
-                    />
-                ) : (
+                {classroom.isTeacher ? null : (
                     <SubmitAssignmentDialog
                         className="submitDialog"
                         open={this.state.dialogOpen}
@@ -89,4 +86,4 @@ class AssignmentCard extends Component {
     }
 }
 
-export default withStyles(styles)(AssignmentCard);
+export default withRouter(withStyles(styles)(AssignmentCard));
