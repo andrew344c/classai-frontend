@@ -93,7 +93,7 @@
     padding-left: 2.5vh;
     padding-right: 2.5vh;
     overflow-y: scroll;
-    height: 500px;
+    max-height: 500px;
   }
   
   .container-grades .all-grades .categories {

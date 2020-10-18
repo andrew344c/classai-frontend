@@ -9,7 +9,7 @@ export default class ClassGrade extends Component {
         return (
             <div className="card widget-part">
                 <div
-                    className="card-header d-flex align-items-center"
+                    className="card-header d-flex"
                     id="accordion-tab-1-heading-1"
                 >
                     <div

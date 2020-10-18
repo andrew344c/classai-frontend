@@ -80,7 +80,7 @@ class GradesList extends Component {
         }
 
         return (
-            <div className="d-flex align-items-center container-grades">
+            <div className="d-flex container-grades">
                 <LoadingBackdrop open={loading} />
                 <div className="row all">
                     <div className="col-lg-12 col-12 grades">

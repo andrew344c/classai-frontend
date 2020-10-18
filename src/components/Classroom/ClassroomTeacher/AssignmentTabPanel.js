@@ -156,7 +156,6 @@ class AssignmentTab extends Component {
                 <div className={classes.container}>
                     {submissions.map((submission) => {
                         console.log(assignment.hasDueDate);
-                        console.log(assignment.dueDate >= submission.createdAt);
                         return (
                             <Paper className={classes.paper}>
                                 <Typography variant="h4">{`${submission.creator.firstName} ${submission.creator.lastName}`}</Typography>
@@ -184,10 +183,12 @@ class AssignmentTab extends Component {
                                     {`Date Submitted: ${dayjs(
                                         submission.createdAt
                                     ).format("MMMM D, YYYY h:mm A")} ${
-                                        assignment.dueDate >=
-                                        submission.createdAt
-                                            ? "(On Time)"
-                                            : "(Late)"
+                                        assignment.hasDueDate
+                                            ? assignment.dueDate >=
+                                              submission.createdAt
+                                                ? "(On Time)"
+                                                : "(Late)"
+                                            : ""
                                     }`}
                                 </Typography>
                                 {submission.type === "file" ? (
