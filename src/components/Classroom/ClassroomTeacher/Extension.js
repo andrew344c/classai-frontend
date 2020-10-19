@@ -32,6 +32,7 @@ const styles = (theme) => ({
     },
     extensionInfoContainer: {
         padding: "1em",
+        position: "relative"
     },
     subtitle: {
         color: "grey",
@@ -40,6 +41,9 @@ const styles = (theme) => ({
         //position: "absolute",
         //bottom: 0,
         padding: "1em 1em 0 1em",
+        position: "absolute",
+        marginTop: "7em",
+        width: "25em"
     },
     developmentStage: {
         display: "flex",
@@ -77,7 +81,7 @@ class Extension extends Component {
                             {subtitle}
                         </Typography>
                         <hr className={classes.divider} />
-                        <Typography variant="body">{description}</Typography>
+                        <Typography variant="body"></Typography>
                     </div>
                     <div className={classes.extensionFooter}>
                         <div className={classes.developmentStage}>
