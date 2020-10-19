@@ -15,28 +15,38 @@ import {
     FormControlLabel,
     Switch,
     Snackbar,
+    Paper,
+    Chip,
+    Avatar,
+    IconButton,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import ClearIcon from "@material-ui/icons/Clear";
 
 // Redux
 import { connect } from "react-redux";
 import { createAssignment } from "../../../redux/actions/userActions";
+import { removeExtension } from "../../../redux/actions/uiActions";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { Alert } from "@material-ui/lab";
+import ExtensionDialog from "./ExtensionDialog";
 
 const defaultState = {
     open: false,
+    extensionOpen: false,
     name: "",
     description: "",
     graded: false,
     hasDueDate: false,
     points: 0,
     dueDateMUI: "",
+    testCases: [[null, null]],
     gradedError: false,
     creatingAssignment: false,
     submitErrors: false,
     dueDate: null,
     success: false,
+    autoGrade: false,
 };
 
 class CreateAssignmentDialog extends Component {
@@ -92,6 +102,21 @@ class CreateAssignmentDialog extends Component {
         this.setState((oldState) => ({
             ...oldState,
             open: false,
+            extensionOpen: false,
+        }));
+    };
+
+    openExtensionDialog = () => {
+        this.setState((oldState) => ({
+            ...oldState,
+            extensionOpen: true,
+        }));
+    };
+
+    closeExtensionDialog = () => {
+        this.setState((oldState) => ({
+            ...oldState,
+            extensionOpen: false,
         }));
     };
 
@@ -112,7 +137,10 @@ class CreateAssignmentDialog extends Component {
                 creatingAssignment: true,
             }));
             this.props
-                .createAssignment(this.state, this.props.classroomId)
+                .createAssignment(
+                    { ...this.state, extensions: this.props.extensions },
+                    this.props.classroomId
+                )
                 .then(() => {
                     this.setState({ ...defaultState, success: true });
                 })
@@ -145,8 +173,49 @@ class CreateAssignmentDialog extends Component {
         }
     };
 
+    onTestCaseChange = (event, index) => {
+        event.preventDefault();
+        event.persist();
+
+        this.setState((oldState) => {
+            if (event.target.name === "stdin") {
+                oldState.testCases[index][0] = event.target.value;
+            } else {
+                oldState.testCases[index][1] = event.target.value;
+            }
+            return oldState;
+        });
+    };
+
+    addTestCase = (event) => {
+        event.preventDefault();
+        event.persist();
+
+        this.setState((oldState) => ({
+            ...oldState,
+            testCases: oldState.testCases.concat([[null, null]]),
+        }));
+    };
+
+    removeTestCase = (event, index) => {
+        event.preventDefault();
+        event.persist();
+
+        this.setState((oldState) => ({
+            ...oldState,
+            testCases: oldState.testCases
+                .slice(0, index)
+                .concat(
+                    oldState.testCases.slice(
+                        index + 1,
+                        oldState.testCases.length
+                    )
+                ),
+        }));
+    };
+
     render() {
-        const { classes } = this.props;
+        const { classes, extensions } = this.props;
 
         return (
             <div>
@@ -263,7 +332,143 @@ class CreateAssignmentDialog extends Component {
                             }
                             label="Graded Assignment"
                         />
+                        <br />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.openExtensionDialog}
+                            style={{ width: "12em", marginTop: "4px" }}
+                        >
+                            Add Extension
+                        </Button>
+                        <hr />
+                        {extensions.map((extension) => {
+                            return (
+                                <Chip
+                                    size="small"
+                                    label={extension}
+                                    avatar={
+                                        <Avatar>{extension.charAt(0)}</Avatar>
+                                    }
+                                    color="primary"
+                                    onDelete={() => {
+                                        this.props.removeExtension(extension);
+                                    }}
+                                />
+                            );
+                        })}
+                        {extensions.includes("Code Runner") ? (
+                            <Paper
+                                style={{
+                                    marginTop: "3em",
+                                    padding: "1em",
+                                }}
+                            >
+                                <Typography variant="h5">
+                                    Code Runner (BETA)
+                                </Typography>
+                                <hr />
+                                <Typography
+                                    variant="body2"
+                                    style={{ marginBottom: "1em" }}
+                                >
+                                    Code Runner currently supports running C,
+                                    C++, Node, and Python code. It will compile
+                                    (if neccesary for language) and run the
+                                    student's submission file (only 1 file
+                                    allowed; for C++ it will run the main
+                                    function). You are able to set test cases
+                                    below by providing a stdin value and
+                                    corresponding stdout value. For each test
+                                    case, stdout and stderr will be reported
+                                    back, and you may select autograding (where
+                                    grade would be # correct / # total) or
+                                    manual grading. Also you are able to choose
+                                    the amount of submissions allowed. Our
+                                    extension currently is still in development
+                                    and is restricted in flexability, but we are
+                                    rapidly expanding to include more languages,
+                                    and increased flexibility and customization
+                                    for testing and grading.
+                                </Typography>
+                                {this.state.testCases.map((testCase, index) => {
+                                    console.log(testCase);
+                                    return (
+                                        <div>
+                                            <Typography variant="h6">
+                                                Test Case {index + 1}
+                                            </Typography>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                label="Stdin"
+                                                name="stdin"
+                                                itemID={index}
+                                                key={index}
+                                                value={testCase[0]}
+                                                onChange={(event) =>
+                                                    this.onTestCaseChange(
+                                                        event,
+                                                        index
+                                                    )
+                                                }
+                                                style={{ marginRight: "5px" }}
+                                            />
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                label="Expected Stdout"
+                                                name="stdout"
+                                                itemID={index}
+                                                key={index}
+                                                value={testCase[1]}
+                                                onChange={(event) =>
+                                                    this.onTestCaseChange(
+                                                        event,
+                                                        index
+                                                    )
+                                                }
+                                            />
+                                            <IconButton
+                                                onClick={(e) =>
+                                                    this.removeTestCase(
+                                                        e,
+                                                        index
+                                                    )
+                                                }
+                                            >
+                                                <ClearIcon />
+                                            </IconButton>
+                                            <hr />
+                                        </div>
+                                    );
+                                })}
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.addTestCase}
+                                >
+                                    Add Test Case
+                                </Button>
+                                <br />
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name="autoGrade"
+                                            onChange={this.onSwitch}
+                                            checked={this.state.autoGrade}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Auto Grade"
+                                />
+                            </Paper>
+                        ) : null}
                     </DialogContent>
+                    <ExtensionDialog
+                        open={this.state.extensionOpen}
+                        handleClose={this.closeExtensionDialog}
+                    />
                     <DialogActions>
                         <Button onClick={this.onClickAway} color="primary">
                             Cancel
@@ -281,10 +486,12 @@ class CreateAssignmentDialog extends Component {
 
 const mapStateToProps = (state) => ({
     classroomId: state.data.classroom.id,
+    extensions: state.ui.extensions,
 });
 
 const mapActionToProps = {
     createAssignment,
+    removeExtension,
 };
 
 export default connect(
