@@ -81,7 +81,7 @@ class Extension extends Component {
                             {subtitle}
                         </Typography>
                         <hr className={classes.divider} />
-                        <Typography variant="body"></Typography>
+                        <Typography variant="body">{description}</Typography>
                     </div>
                     <div className={classes.extensionFooter}>
                         <div className={classes.developmentStage}>
