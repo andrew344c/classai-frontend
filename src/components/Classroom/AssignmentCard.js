@@ -34,7 +34,7 @@ class AssignmentCard extends Component {
     }
 
     onClick = (event) => {
-        if (this.props.classroom.isTeacher) {
+        if (event.target.getAttribute("name") !== "userListItem" && this.props.classroom.isTeacher) {
             this.props.history.push(
                 `/classroom/${this.props.classroom.id}/assignment/${this.props.assignment.id}`
             );
