@@ -32,7 +32,8 @@ const styles = (theme) => ({
     },
     extensionInfoContainer: {
         padding: "1em",
-        position: "relative"
+        position: "absolute",
+        width: "25em"
     },
     subtitle: {
         color: "grey",
@@ -42,7 +43,7 @@ const styles = (theme) => ({
         //bottom: 0,
         padding: "1em 1em 0 1em",
         position: "absolute",
-        marginTop: "7em",
+        marginTop: "9em",
         width: "25em"
     },
     developmentStage: {
