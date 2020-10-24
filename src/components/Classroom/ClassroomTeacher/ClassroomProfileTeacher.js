@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Paper, Typography, Button } from "@material-ui/core";
-import { CalendarToday, DeleteForever } from "@material-ui/icons";
+import { CalendarToday, DeleteForever, Settings } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 
 import { connect } from "react-redux";
@@ -10,6 +10,8 @@ import { deleteClassroom } from "../../../redux/actions/userActions";
 import { withRouter } from "react-router";
 
 import dayjs from "dayjs";
+
+import ClassroomSettingsDialog from "./ClassroomSettingsDialog";
 
 import tempImg from "../../../assets/default-classroom.png";
 
@@ -91,15 +93,15 @@ class ClassroomProfile extends Component {
                         </span>
                     </div>
                     <div style={{ textAlign: "center", paddingTop: "2em" }}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            startIcon={<DeleteForever />}
-                            onClick={this.onDelete}
-                        >
-                            Delete Classroom
-                        </Button>
+                        <ClassroomSettingsDialog
+                            buttonStyles={{
+                                "& svg.button": {
+                                    "&:hover": {
+                                        cursor: "pointer",
+                                    },
+                                },
+                            }}
+                        />
                     </div>
                 </div>
             </Paper>
@@ -115,7 +117,9 @@ const mapActionToProps = {
     deleteClassroom,
 };
 
-export default withRouter(connect(
-    mapStateToProps,
-    mapActionToProps
-)(withStyles(styles)(ClassroomProfile)));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapActionToProps
+    )(withStyles(styles)(ClassroomProfile))
+);

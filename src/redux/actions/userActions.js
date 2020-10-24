@@ -4,6 +4,7 @@ import {
     JOINED_CLASSROOM,
     CREATED_ASSIGNMENT,
     CLEAR_ERRORS,
+    CHANGE_CLASSROOM,
 } from "../types";
 import axios from "axios";
 
@@ -104,6 +105,19 @@ export const createClassroom = (classroomInfo) => (dispatch) => {
             newClassroom: res.data,
         });
     });
+};
+
+export const changeClassroomSettings = (classroomId, newClassroomSettings) => (
+    dispatch
+) => {
+    return axios
+        .put(`/classrooms/${classroomId}`, newClassroomSettings)
+        .then((res) => {
+            return dispatch({
+                type: CHANGE_CLASSROOM,
+                newClassroomSettings,
+            });
+        });
 };
 
 export const deleteClassroom = (classroomId) => (dispatch) => {

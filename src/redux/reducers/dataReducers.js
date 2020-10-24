@@ -4,6 +4,7 @@ import {
     GET_CLASSROOM,
     CREATED_ASSIGNMENT,
     GET_SUBMISSIONS,
+    CHANGE_CLASSROOM,
 } from "../types";
 
 const defaultState = {
@@ -44,6 +45,14 @@ export default (state = defaultState, action) => {
             return {
                 ...state,
                 submissions: action.payload.submissions,
+            };
+        case CHANGE_CLASSROOM:
+            return {
+                ...state,
+                classroom: {
+                    ...state.classroom,
+                    ...action.newClassroomSettings,
+                },
             };
         default:
             return state;
