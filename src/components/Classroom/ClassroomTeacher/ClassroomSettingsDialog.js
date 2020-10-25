@@ -10,8 +10,11 @@ import {
     DialogContent,
     DialogActions,
     Typography,
+    Snackbar,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { Settings, DeleteForever } from "@material-ui/icons";
+import LoadingBackdrop from "../../LoadingBackdrop";
 
 import { connect } from "react-redux";
 import { changeClassroomSettings } from "../../../redux/actions/userActions";
@@ -25,6 +28,7 @@ class ClassroomSettingsDialog extends Component {
             description: "",
             loading: false,
             success: false,
+            errors: false,
             confirmDelete: false,
         };
     }
@@ -49,7 +53,28 @@ class ClassroomSettingsDialog extends Component {
                     ...oldState,
                     loading: false,
                     success: true,
+                    errors: false,
                 }));
+            })
+            .catch((err) => {
+                console.error(err);
+                if (err.response) {
+                    if (err.response.status === 401) {
+                        this.props.history.push("/login");
+                    }
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors: err.response.data,
+                    }));
+                } else {
+                    this.setState((oldState) => ({
+                        ...oldState,
+                        loading: false,
+                        errors:
+                            "An unexpected error occured, please try again.",
+                    }));
+                }
             });
         this.setState((oldState) => ({
             ...oldState,
@@ -74,6 +99,51 @@ class ClassroomSettingsDialog extends Component {
         const { buttonStyles } = this.props;
         return (
             <Fragment>
+                <Snackbar
+                    open={this.state.success}
+                    autoHideDuration={7000}
+                    onClose={() =>
+                        this.setState((oldState) => ({
+                            ...oldState,
+                            success: false,
+                        }))
+                    }
+                >
+                    <Alert
+                        severity="success"
+                        onClose={() =>
+                            this.setState((oldState) => ({
+                                ...oldState,
+                                success: false,
+                            }))
+                        }
+                    >
+                        Successfully updated classroom settings
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={this.state.errors}
+                    autoHideDuration={7000}
+                    onClose={() =>
+                        this.setState((oldState) => ({
+                            ...oldState,
+                            errors: false,
+                        }))
+                    }
+                >
+                    <Alert
+                        severity="error"
+                        onClose={() =>
+                            this.setState((oldState) => ({
+                                ...oldState,
+                                errors: false,
+                            }))
+                        }
+                    >
+                        {this.state.errors}
+                    </Alert>
+                </Snackbar>
+
                 <Button
                     variant="contained"
                     color="default"
@@ -98,6 +168,7 @@ class ClassroomSettingsDialog extends Component {
                     }
                     fullWidth
                 >
+                    <LoadingBackdrop open={this.state.loading} />
                     <DialogTitle>Settings</DialogTitle>
                     <DialogContent>
                         <TextField

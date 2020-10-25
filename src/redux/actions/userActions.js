@@ -121,9 +121,7 @@ export const changeClassroomSettings = (classroomId, newClassroomSettings) => (
 };
 
 export const deleteClassroom = (classroomId) => (dispatch) => {
-    return axios.delete(`/classrooms/${classroomId}`).then((res) => {
-        alert(res.data.message);
-    });
+    return axios.delete(`/classrooms/${classroomId}`)
 };
 
 export const createAssignment = (assignmentInfo, classroomId) => (dispatch) => {

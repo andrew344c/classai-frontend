@@ -47,6 +47,12 @@ export default (state = defaultState, action) => {
                 submissions: action.payload.submissions,
             };
         case CHANGE_CLASSROOM:
+            if (action.newClassroomSettings.name.length === 0) {
+                delete action.newClassroomSettings.name;
+            }
+            if (action.newClassroomSettings.description.length === 0) {
+                delete action.newClassroomSettings.description;
+            }
             return {
                 ...state,
                 classroom: {
