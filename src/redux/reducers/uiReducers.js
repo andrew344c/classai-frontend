@@ -4,6 +4,7 @@ import {
     CLEAR_ERRORS,
     ADD_EXTENSION,
     REMOVE_EXTENSION,
+    SET_EXTENSIONS,
 } from "../types";
 
 const defaultState = {
@@ -40,6 +41,11 @@ export default (state = defaultState, action) => {
                 extensions: state.extensions.filter(
                     (extension) => extension !== action.extension
                 ),
+            };
+        case SET_EXTENSIONS:
+            return {
+                ...state,
+                extensions: action.extensions,
             };
         default:
             return state;

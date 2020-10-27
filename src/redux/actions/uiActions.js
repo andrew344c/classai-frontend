@@ -1,4 +1,9 @@
-import { TOGGLE_DRAWER, ADD_EXTENSION, REMOVE_EXTENSION } from "../types";
+import {
+    TOGGLE_DRAWER,
+    ADD_EXTENSION,
+    REMOVE_EXTENSION,
+    SET_EXTENSIONS,
+} from "../types";
 
 export const toggleDrawer = () => (dispatch) => {
     dispatch({
@@ -17,5 +22,12 @@ export const removeExtension = (extension) => (dispatch) => {
     dispatch({
         type: REMOVE_EXTENSION,
         extension,
+    });
+};
+
+export const setExtensions = (extensions) => (dispatch) => {
+    dispatch({
+        type: SET_EXTENSIONS,
+        extensions,
     });
 };

@@ -4,6 +4,7 @@ export const SET_ERRORS = "SET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const ADD_EXTENSION = "ADD_EXTENSION";
 export const REMOVE_EXTENSION = "REMOVE_EXTENSION";
+export const SET_EXTENSIONS = "SET_EXTENSIONS";
 
 // Data Reducer Types
 export const GET_CLASSROOMS = "GET_CLASSROOMS";

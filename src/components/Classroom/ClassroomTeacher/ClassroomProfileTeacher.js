@@ -48,8 +48,7 @@ const styles = (theme) => ({
             },
         },
         "& hr": {
-            border: "none",
-            margin: "0 0 10px 0",
+            margin: "8px 0 16px 0",
         },
         "& svg.button": {
             "&:hover": {
@@ -78,14 +77,14 @@ class ClassroomProfile extends Component {
                             className="profile-image"
                         />
                     </div>
-                    <hr />
+                    <hr style={{ border: "none" }} />
                     <div className="profile-details">
-                        <Typography variant="h5">{name}</Typography>
+                        <Typography variant="h4">{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
+                        <hr />
                         <Typography>
                             <b>Class Code: {id}</b>
                         </Typography>
-                        <hr />
                         <CalendarToday color="primary" />{" "}
                         <span>
                             Created{" " /** Used for space between */}

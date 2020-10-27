@@ -44,8 +44,7 @@ const styles = (theme) => ({
             },
         },
         "& hr": {
-            border: "none",
-            margin: "0 0 10px 0",
+            margin: "8px 0 16px 0",
         },
         "& svg.button": {
             "&:hover": {
@@ -72,20 +71,23 @@ class ClassroomProfile extends Component {
                             className="profile-image"
                         />
                     </div>
-                    <hr />
+                    <hr style={{ border: "none" }} />
                     <div className="profile-details">
-                        <Typography variant="h5">{name}</Typography>
+                        <Typography variant="h4">{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
-                        <Typography variant="h8"><b>Class Code: {id}</b></Typography>
                         <hr />
+                        <Typography variant="h8">
+                            <b>Class Code: {id}</b>
+                        </Typography>
                         <CalendarToday color="primary" />{" "}
                         <span>
                             Created{" " /** Used for space between */}
                             {dayjs(createdAt).format("MMMM YYYY")}
                         </span>
                     </div>
-                    <div style={{ textAlign: "center", paddingTop: "2em" }}>
-                    </div>
+                    <div
+                        style={{ textAlign: "center", paddingTop: "2em" }}
+                    ></div>
                 </div>
             </Paper>
         );
