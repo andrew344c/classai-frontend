@@ -53,11 +53,6 @@ const styles = (theme) => ({
         width: "50em",
         textTransform: "none",
     },
-    titleBar: {
-        borderBottom: "1px solid lightgrey",
-        width: "100vw",
-        padding: "2em",
-    },
     details: {
         alignItems: "center",
     },
@@ -142,14 +137,17 @@ class AssignmentDashboard extends Component {
                             wordWrap: "break-word",
                         }}
                     >
-                        <CardContent style={{ margin: "0 auto" }}>
+                        <CardContent
+                            style={{ margin: "0 auto", display: "flex" }}
+                        >
                             {setting !== "extensions" ? (
-                                <div style={{ display: "flex" }}>
+                                <Fragment>
                                     <Typography
+                                        variant="h6"
                                         style={{
-                                            marginRight: "1em",
                                             whiteSpace: "pre-wrap",
                                         }}
+                                        noWrap={false}
                                     >
                                         {`New ${
                                             setting === "dueDate"
@@ -174,7 +172,7 @@ class AssignmentDashboard extends Component {
                                         <CloseIcon />
                                         <Typography>Cancel</Typography>
                                     </IconButton>
-                                </div>
+                                </Fragment>
                             ) : (
                                 <Fragment>
                                     <Typography variant="h6">
@@ -246,6 +244,7 @@ class AssignmentDashboard extends Component {
                         {setting !== "dueDate" ? (
                             <TextField
                                 fullWidth
+                                multiline
                                 label={`New assignment ${setting}`}
                                 value={this.state.newSettings[setting]}
                                 onChange={(e) => {
@@ -389,12 +388,12 @@ class AssignmentDashboard extends Component {
     };
 
     onEdit = () => {
-        axios.put(
-            `/classrooms/${this.props.match.params.classroomId}/assignments/${this.props.match.params.assignmentId}`,
-            this.state.newSettings
-        ).then(() => {
-            
-        });
+        axios
+            .put(
+                `/classrooms/${this.props.match.params.classroomId}/assignments/${this.props.match.params.assignmentId}`,
+                this.state.newSettings
+            )
+            .then(() => {});
     };
 
     render() {
@@ -456,186 +455,7 @@ class AssignmentDashboard extends Component {
                                 {this.state.errors}
                             </Alert>
                         </Snackbar>
-                        <ExpansionPanel className={classes.titleBar}>
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                            >
-                                <Typography variant="h4">
-                                    {this.state.assignment.name}
-                                </Typography>
-                            </ExpansionPanelSummary>
-                            <hr />
-                            <ExpansionPanelDetails>
-                                <Grid container>
-                                    <Grid
-                                        item
-                                        md={6}
-                                        style={{
-                                            borderBottom: "1px solid grey",
-                                        }}
-                                    >
-                                        <Typography variant="body1">
-                                            Description:{" "}
-                                            {this.state.assignment.description}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={6}
-                                        style={{
-                                            borderLeft: "1px solid grey",
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                margin: "0 auto",
-                                                width: "max-content",
-                                            }}
-                                        >
-                                            <Typography variant="h6">
-                                                Change Assignment Settings
-                                            </Typography>
-                                            <hr />
-                                            <ButtonGroup
-                                                orientation="vertical"
-                                                color="primary"
-                                            >
-                                                <Button
-                                                    onClick={(e) =>
-                                                        this.changeSetting(
-                                                            e,
-                                                            "name"
-                                                        )
-                                                    }
-                                                >
-                                                    Change Assignment Name
-                                                </Button>
-                                                <Button
-                                                    onClick={(e) =>
-                                                        this.changeSetting(
-                                                            e,
-                                                            "description"
-                                                        )
-                                                    }
-                                                >
-                                                    Change Assignment
-                                                    Description
-                                                </Button>
-                                                <Button
-                                                    onClick={(e) =>
-                                                        this.changeSetting(
-                                                            e,
-                                                            "dueDate"
-                                                        )
-                                                    }
-                                                >
-                                                    Change Assignment Due Date
-                                                </Button>
-                                                <Button
-                                                    onClick={(e) =>
-                                                        this.changeSetting(
-                                                            e,
-                                                            "points"
-                                                        )
-                                                    }
-                                                >
-                                                    Change Assignment Grading
-                                                </Button>
-                                                <Button
-                                                    onClick={(e) =>
-                                                        this.changeSetting(
-                                                            e,
-                                                            "extensions"
-                                                        )
-                                                    }
-                                                >
-                                                    Change Assignment Extensions
-                                                </Button>
-                                                <Button
-                                                    color="secondary"
-                                                    onClick={this.onDeleteClick}
-                                                >
-                                                    Delete Assignment
-                                                </Button>
-                                            </ButtonGroup>
-                                            <div style={{ margin: "1em auto" }}>
-                                                <Typography variant="h6">
-                                                    Assignment Settings to be
-                                                    Changed
-                                                </Typography>
-                                                <hr />
-                                                {this.parseSettings(
-                                                    this.state.newSettings
-                                                )}
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={6}
-                                        style={{
-                                            marginTop: "1em",
-                                        }}
-                                    >
-                                        <div style={{ display: "flex" }}>
-                                            <CalendarToday
-                                                color="primary"
-                                                style={{
-                                                    marginRight: "10px",
-                                                    marginBottom: "5px",
-                                                }}
-                                            />{" "}
-                                            <Typography>
-                                                Created{" "}
-                                                {dayjs(
-                                                    this.state.assignment
-                                                        .createdAt
-                                                ).format("MMMM D, YYYY h:mm A")}
-                                            </Typography>
-                                        </div>
-                                        <Typography>
-                                            {this.state.assignment.hasDueDate
-                                                ? `
-                                        Due Date: ${dayjs(
-                                            this.state.assignment.dueDate
-                                        ).format("MMMM D, YYYY h:mm A")}
-                                        `
-                                                : "No Due Date"}
-                                        </Typography>
-                                        <Typography>
-                                            {this.state.assignment.points
-                                                ? `Point Total: ${this.state.assignment.points}`
-                                                : "Not Graded"}
-                                        </Typography>
-
-                                        {this.state.assignment.extensions
-                                            .length !== 0 ? (
-                                            <div>
-                                                <Typography>
-                                                    Extensions on assignment:{" "}
-                                                </Typography>
-                                                <ul>
-                                                    {this.state.assignment.extensions.map(
-                                                        (extension) => {
-                                                            return (
-                                                                <li>
-                                                                    {extension}
-                                                                </li>
-                                                            );
-                                                        }
-                                                    )}
-                                                </ul>
-                                            </div>
-                                        ) : (
-                                            <Typography>
-                                                No extensions attached to this
-                                                assignment
-                                            </Typography>
-                                        )}
-                                    </Grid>
-                                </Grid>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
+                        
 
                         {/*<div className={classes.titleBar}>
                             <Typography variant="h4">
